@@ -8,10 +8,9 @@ import java.util.Date;
  * @author MoonCode
  */
 public class backend {
- 
     public static void main(String[] args) {
         if (args.length < 1 || args.length > 1) {
-            System.out.println("Error sintactico. Usa backend (port)");
+            System.out.println("Syntax error. Use: backend <port>");
             return;
         }
  
@@ -19,17 +18,13 @@ public class backend {
  
         try (ServerSocket serverSocket = new ServerSocket(port)) {
  
-            System.out.println("Servidor central escuchando en el puerto " + port);
+            System.out.println("Central server listening on port: " + port);
  
             while (true) {
                 Socket socket = serverSocket.accept();
-                System.out.println("Cliente conectado");
- 
-                OutputStream output = socket.getOutputStream();
-                PrintWriter writer = new PrintWriter(output, true);
- 
-                writer.println(new Date().toString());
-                socket.close();
+                System.out.println("Client connected");
+                treatMsg tr = new treatMsg();
+                tr.start();
             }
  
         } catch (IOException ex) {
