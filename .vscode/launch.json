@@ -9,6 +9,13 @@
             "name": "Launch backend",
             "request": "launch",
             "mainClass": "backend",
+            "projectName": "Backend_aad1170e"
+        },
+        {
+            "type": "java",
+            "name": "Launch backend",
+            "request": "launch",
+            "mainClass": "backend",
             "projectName": "Backend_a7519396"
         },
         {

@@ -1,3 +1,4 @@
+package gameprops;
 import java.util.ArrayList;
 
 import enums.State;

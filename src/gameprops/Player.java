@@ -1,3 +1,4 @@
+package gameprops;
 public class Player {
 
     public int playerId;

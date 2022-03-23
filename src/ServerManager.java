@@ -1,5 +1,7 @@
 import java.net.*;
 
+import gameutils.ServerWebSocket;
+
  
 /**
  * Programa principal del servidor central
@@ -7,7 +9,7 @@ import java.net.*;
  * @author MoonCode
  */
 
-public class backend {
+public class ServerManager {
     public static void main(String[] args) {
 		try {
 			new ServerWebSocket(8887).start();

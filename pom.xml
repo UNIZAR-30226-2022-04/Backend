@@ -1,0 +1,15 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+ 
+  <groupId>backend.ServerManager</groupId>
+  <artifactId>backend</artifactId>
+  <version>1</version>
+  <dependencies>
+    <dependency>
+        <groupId>org.java-websocket</groupId>
+        <artifactId>Java-WebSocket</artifactId>
+        <version>1.5.2</version>
+    </dependency>
+  </dependencies>
+
+</project>

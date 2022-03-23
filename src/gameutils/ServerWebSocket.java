@@ -1,3 +1,4 @@
+package gameutils;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 
@@ -15,7 +16,9 @@ public class ServerWebSocket extends WebSocketServer{
 
     public ServerWebSocket(int puerto) throws UnknownHostException {
 		super(new InetSocketAddress(puerto));
-		System.out.println("Recibiendo conexiones en el puerto " + puerto);		
+		System.out.println("[====================================]");
+		System.out.println("     SERVER LISTENING ON PORT " + puerto);
+		System.out.println("[====================================]");		
 	}
 	
 	@Override
