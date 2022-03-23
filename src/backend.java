@@ -23,7 +23,7 @@ public class backend {
             while (true) {
                 Socket socket = serverSocket.accept();
                 System.out.println("Client connected");
-                treatMsg tr = new treatMsg();
+                ServerWebSocket tr = new ServerWebSocket();
                 tr.start();
             }
  
