@@ -1,66 +1,49 @@
-import java.util.HashSet;
-import java.util.Set;
-import javax.enterprise.context.ApplicationScoped;
-import javax.websocket.OnClose;
-import javax.websocket.OnError;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
-import javax.websocket.server.ServerEndpoint;
+import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
+
+import org.java_websocket.WebSocket;
+import org.java_websocket.handshake.ClientHandshake;
+import org.java_websocket.server.WebSocketServer;
 
 /**
- * @author Oscar Blancarte <oscarblancarte3@gmail.com>
+ * Configuracion Servidor con WebSockets
+ *
+ * @author MoonCode
  */
-@ApplicationScoped
-@ServerEndpoint("/progress")
-public class ServerWebSocket extends Thread {
 
-    private Set<Session> sessions = new HashSet<>();
+public class ServerWebSocket extends WebSocketServer{
 
-    public void open(Session session) {
-        System.out.println("Session opened ==>");
-        sessions.add(session);
-    }
+    public ServerWebSocket(int puerto) throws UnknownHostException {
+		super(new InetSocketAddress(puerto));
+		System.out.println("Recibiendo conexiones en el puerto " + puerto);		
+	}
+	
+	@Override
+	public void onClose(WebSocket webSocket, int arg1, String arg2, boolean arg3) {
+		System.out.println("Se ha cerrado la conexión");
+		
+	}
 
-    public void handleMessage(String message, Session session) {
-        System.out.println("new message ==> " + message);
-        try {
-            for (Session session : sessions) {
-                s.getBasicRemote().sendText();
-            }
-            Thread.sleep(100);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
+	@Override
+	public void onError(WebSocket webSocket, Exception e) {
+		System.out.println("Error de conexión");
+		e.printStackTrace();
+		
+	}
 
-    public void close(Session session) {
-        System.out.println("Session closed ==>");
-        sessions.remove(session);
-    }
+	@Override
+	public void onMessage(WebSocket webSocket, String mensaje) {
+		webSocket.send("Gracias por el mensaje: " + mensaje);
+		System.out.println("Se ha recibido el mensaje: " + mensaje);
+		
+		
+	}
 
-    public void run(Session session){
-        
-        
-    }
+	@Override
+	public void onOpen(WebSocket webSocket, ClientHandshake arg1) {
+		webSocket.send("Bienvenido a mi servidor");
+		System.out.println("Se ha iniciado una nueva conexión");
+		
+	}
+
 }
-
-/*public class treatMsg extends Thread{
-
-    public void run(Socket socket){
-        
-        try {
-            OutputStream output = socket.getOutputStream();
-            //PrintWriter writer = new PrintWriter(output, true);
-            //writer.println(new Date().toString());
-
-            //tratamiento
-
-            socket.close();
-        } catch (IOException ex) {
-            System.out.println("Socket exception: " + ex.getMessage());
-            ex.printStackTrace();
-        }
-    }
-}*/

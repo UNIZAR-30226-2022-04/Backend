@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch backend",
+            "request": "launch",
+            "mainClass": "backend",
+            "projectName": "Backend_a7519396"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
