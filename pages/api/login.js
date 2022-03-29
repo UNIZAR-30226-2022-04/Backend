@@ -34,9 +34,9 @@ export default function handler(req, res) {
         if (user.password == mensaje.password){
             res.status(200).json({ result:'success',reason:''});
         } else {
-            res.status(400).json({ result:'error',reason:'wrong_password'});
+            res.status(200).json({ result:'error',reason:'wrong_password'});
         }
     } else {
-        res.status(400).json({ result:'error',reason:'user_not_found'});
+        res.status(200).json({ result:'error',reason:'user_not_found'});
     }
 }
