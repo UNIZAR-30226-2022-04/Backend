@@ -5,7 +5,7 @@ import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
 import Comentario from './comentario'
 
-const name = 'Jorge'
+const name = 'Ismati sube video'
 // Con el atributo export se puede importar desde otros sitios 
 export const siteTitle = 'Frankenstory'
 
@@ -47,7 +47,7 @@ export default function Layout({ children, home }) {
             </Comentario>
             <Image
               priority
-              src="/images/Jorge.png"
+              src="/images/Mercu.png"
               className={utilStyles.borderCircle}
               height={144}
               width={144}
