@@ -1,29 +1,4 @@
-let users = [
-    {
-        "username": "Jaime",
-        "password": "Jaime1234"
-    },
-    {
-        "username": "Pilar",
-        "password": "Pilar1234"
-    },
-    {
-        "username": "Ismael",
-        "password": "Ismael1234"
-    },
-    {
-        "username": "Adrian",
-        "password": "Adrian1234"
-    },
-    {
-        "username": "Jorge",
-        "password": "Jorge1234"
-    },
-    {
-        "username": "Jesus",
-        "password": "Jesus1234"
-    }
-]
+import users from "../../lib/users"
 
 // Al ir a http://localhost:3000/api/login te devuelve el siguiente json
 export default function handler(req, res) {
