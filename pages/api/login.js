@@ -4,10 +4,11 @@ import users from "../../lib/users"
 export default function handler(req, res) {
     const mensaje = req.body;
     const user = users.find(user => user.username == mensaje.username)
+    const pending = 3   //cantidad de notificaciones
 
     if (user != null){
         if (user.password == mensaje.password){
-            res.status(200).json({ result:'success',reason:''});
+            res.status(200).json({ result:'success',reason:'' , notifications: pending});
         } else {
             res.status(200).json({ result:'error',reason:'wrong_password'});
         }
