@@ -7,6 +7,14 @@ CREATE TABLE Player(
     Stars integer
 );
 
+CREATE TABLE Petition(
+    Username varchar(30),
+    Petition_name varchar(30),
+    PRIMARY KEY (Username, Petition_name),
+    FOREIGN KEY (Username) REFERENCES Player(Username),
+    FOREIGN KEY (Petition_name) REFERENCES Player(Username)
+);
+
 CREATE TABLE Friendship(
     Username varchar(30),
     Friendname varchar(30),
