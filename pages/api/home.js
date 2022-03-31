@@ -3,26 +3,30 @@ import users from "../../lib/users"
 // Al ir a http://localhost:3000/api/home te devuelve el siguiente json
 export default function handler(req, res) {
     const mensaje = req.body;
-    const user = users.find(user => user.username == mensaje.username)
 
+    // TODO
+    // searches for the user in the DB
+    const user = users.find(user => user.username == mensaje.username)
+    // END TODO
+
+    // checks the autenticity
     if (user != null){
         if (user.password == mensaje.password){
-            const notifications = 3   // amount of notifications (DB NEEDED)
-            const coins = 403   // amount of coins (DB NEEDED)
-            const stars = 2706  // amount of stars (DB NEEDED)
-            const bestFour = [  // top 4 friends with the higest score (DB NEEDED)
-                {"username": users[4].username, "stars": 2706},
-                {"username": users[1].username, "stars": 2048},
-                {"username": users[2].username, "stars": 1414},
-                {"username": users[5].username, "stars": 1024}
+            // TODO
+            // looks for the top N players within the friends set
+            const bestFour = [  // top 4 friends with the higest score
+                {"username": users[4].username, "stars": users[4].stars},
+                {"username": users[1].username, "stars": users[1].stars},
+                {"username": users[2].username, "stars": users[2].stars},
+                {"username": users[5].username, "stars": users[5].stars}
             ]
-            const picture = 7 // ID number of the profile picture (DB NEEDED)
+            const notifications = 3   // amount of notifications (DB NEEDED)
+            // END TODO
             res.status(200).json({  result:'success',
-                                    notifications: notifications,
-                                    coins: coins,
-                                    stars: stars,
-                                    bestFour: bestFour,
-                                    picture: picture});
+                                    picture: user.picture,
+                                    stars: user.stars,
+                                    coins: user.coins,
+                                    bestFour, notifications});
         } else {
             res.status(200).json({ result:'error',reason:'wrong_password'});
         }

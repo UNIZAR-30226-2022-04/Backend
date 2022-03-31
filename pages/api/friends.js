@@ -3,12 +3,20 @@ import users from "../../lib/users"
 // Al ir a http://localhost:3000/api/friends te devuelve el siguiente json
 export default function handler(req, res) {
     const mensaje = req.body;
+
+    // TODO
+    // searches for the user in the DB
     const user = users.find(user => user.username == mensaje.username);
+    // looks for friends
     const friends = [users[0].username,users[1].username];
-    const notifications = [users[2].username,users[3].username];  //usuarios pendientes
+    // checks notifications
+    const notifications = [users[2].username,users[3].username];  // pending users
+    // END TODO
+
+    // checks the autenticity
     if (user != null){
         if (user.password == mensaje.password){
-            res.status(200).json({friends ,notifications:notifications});
+            res.status(200).json({friends ,notifications});
         } else {
             res.status(200).json({ result:'error',reason:'wrong_password'}); //wrong_validation?
         }
