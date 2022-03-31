@@ -5,10 +5,10 @@ export default function handler(req, res) {
     const mensaje = req.body;
     const user = users.find(user => user.username == mensaje.username);
     const friends = [users[0].username,users[1].username];
-    const pending = [users[2].username,users[3].username];  //usuarios pendientes
+    const notifications = [users[2].username,users[3].username];  //usuarios pendientes
     if (user != null){
         if (user.password == mensaje.password){
-            res.status(200).json({friends ,notifications:pending});
+            res.status(200).json({friends ,notifications:notifications});
         } else {
             res.status(200).json({ result:'error',reason:'wrong_password'}); //wrong_validation?
         }

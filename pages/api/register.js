@@ -6,7 +6,7 @@ import users from "../../lib/users"
 export default function handler(req, res) {
     const mensaje = req.body;
     const user = users.find(user => user.username == mensaje.username);
-
+    // check nombre vacio
     if (user == null){
         const coins = 100   // amount of initial coins (HARCODED)
         const picture = 0 // ID number of the default profile picture (HARDCODED)
