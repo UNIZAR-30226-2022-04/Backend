@@ -14,7 +14,7 @@ export default function handler(req, res) {
         if (user.password == mensaje.password){
             // TODO
             // looks for the target user in the DB
-            const targetUser = users.find(targetUser => targetUser.username == mensaje.targetUser)
+            const targetUser = users.find(user => user.username == mensaje.targetUser)
             // END TODO
 
             if (targetUser != null){
