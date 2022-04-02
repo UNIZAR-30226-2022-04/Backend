@@ -9,7 +9,7 @@ export default async (req, res) => {
 
     // checks the autenticity
     if (user != null){
-        if (user.password == mensaje.password){
+        if (user.password_hash == mensaje.password){ //cambiar por password + anadir mecanismo hash
             
             const targetUser = await selectPlayerDB(mensaje.targetUser);
 

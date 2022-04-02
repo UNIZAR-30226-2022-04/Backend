@@ -16,7 +16,7 @@ export default async (req, res) => {
 
     // checks the autenticity
     if (user != null){
-        if (user.password == mensaje.password){
+        if (user.password_hash == mensaje.password){ //cambiar por password + anadir mecanismo hash
             res.status(200).json({friends ,notifications});
         } else {
             res.status(200).json({ result:'error',reason:'wrong_password'}); //wrong_validation?
