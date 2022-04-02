@@ -14,9 +14,10 @@ export default async (req, res) => {
 
             if (targetUser != null){
                 const picture = targetUser.image_ID
-
-                const isFriend = (user.friends.find(user => 
-                            user.username == targetUser.username) != null)
+                
+                const isFriend = true
+                //const isFriend = (user.friends.find(user => 
+                //            user.username == targetUser.username) != null)
 
                 res.status(200).json({  result:'success',
                                     isFound: true, picture, isFriend});
