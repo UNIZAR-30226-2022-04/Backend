@@ -8,10 +8,9 @@ export default async (req, res) => {
     // searches for the user in the DB
     const user = await selectPlayerDB(mensaje.username);
 
-    // TODO
     // looks for friends
-    const friends = [users[0].username,users[1].username];
-    // END TODO
+    const friends = [users[0].username,users[1].username];  // sustituir por inferior cuando se puedan hacer amistades
+    //const friends = user.friend   // friends of the user
 
     // checks notifications
     const notifications = [users[2].username,users[3].username];  // sustituir por inferior cuando se puedan mandar notificaciones
