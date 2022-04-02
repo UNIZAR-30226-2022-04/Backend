@@ -1,7 +1,7 @@
 import users from "../../lib/users"
 
 // Al ir a http://localhost:3000/api/friends te devuelve el siguiente json
-export default function handler(req, res) {
+export default async (req, res) => {
     const mensaje = req.body;
 
     // searches for the user in the DB

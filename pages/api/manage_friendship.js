@@ -1,7 +1,7 @@
 import users from "../../lib/users"
 
 // Al ir a http://localhost:3000/api/manage_friends te devuelve el siguiente json
-export default function handler(req, res) {
+export default async (req, res) => {
     const mensaje = req.body;
 
     const user = await selectPlayerDB(mensaje.username);

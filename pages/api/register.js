@@ -1,16 +1,16 @@
 import crypto from "crypto";
-import { createPlayerDB } from "../../prisma/queries/CREATE/player";
-import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
+import { createPlayerDB } from "../../prisma/queries/CREATE/user";
+import { selectPlayerDB } from "../../prisma/queries/SELECT/user";
 //import CryptoJS from "crypto-js"
 
 // Al ir a http://localhost:3000/api/register te devuelve el siguiente json
 export default async (req, res) => {
 	const mensaje = req.body;
 
-	const player = await selectPlayerDB(mensaje.username);
+	const user = await selectPlayerDB(mensaje.username);
 
 	// checks is the username is already taken
-	if (player == undefined) {
+	if (user == undefined) {
 		//const salt = crypto.randomBytes(16).toString("hex")
 
 		const query = {
@@ -24,7 +24,7 @@ export default async (req, res) => {
 			mooncoins: 100, // amount of initial coins (HARCODED)
 		};
 
-		const player = await createPlayerDB(query);
+		const user = await createPlayerDB(query);
 
 		// if(la introduccion ha ido bien){
 		res.status(200).json({ result: "success" });
