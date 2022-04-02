@@ -1,38 +1,38 @@
-import crypto from "crypto"
-import users from "../../lib/users"
+import crypto from "crypto";
+import { createPlayerDB } from "../../prisma/queries/CREATE/player";
+import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
 //import CryptoJS from "crypto-js"
 
 // Al ir a http://localhost:3000/api/register te devuelve el siguiente json
-export default function handler(req, res) {
-    const mensaje = req.body;
+export default async (req, res) => {
+	const mensaje = req.body;
 
-    // TODO
-    // searches for the user in the DB
-    const user = users.find(user => user.username == mensaje.username);
-    // END TODO
+	const player = await selectPlayerDB(mensaje.username);
 
-    // checks is the username is already taken
-    if (user == null){
-            
-        //const salt = crypto.randomBytes(16).toString("hex")
+	// checks is the username is already taken
+	if (player == undefined) {
+		//const salt = crypto.randomBytes(16).toString("hex")
 
-        const query = {
-            username: mensaje.username,
-            //salt: salt,
-            password: mensaje.password,
-            //password: CryptoJS.SHA512(salt + mensaje.password).toString(),
-            picture: 0, // ID number of the default profile picture (HARDCODED)
-            stars: 0,   // amount of initial stars (HARDCODED)
-            coins: 100  // amount of initial coins (HARCODED)
-        }
-        users.push(query);
+		const query = {
+			username: mensaje.username,
+			email: mensaje.email,
+			//salt: salt,
+			password_hash: mensaje.password,
+			//password: CryptoJS.SHA512(salt + mensaje.password).toString(),
+			image_ID: 0, // ID number of the default profile picture (HARDCODED)
+			stars: 0, // amount of initial stars (HARDCODED)
+			mooncoins: 100, // amount of initial coins (HARCODED)
+		};
 
-        // TODO STORE VALUES IN DB HERE
+		const player = await createPlayerDB(query);
 
-        // if(la introduccion ha ido bien){
-            res.status(200).json({result:'success'});
-        //} else error
-    } else {
-        res.status(200).json({ result:'error',reason:'user_already_registered'});
-    }
-}
+		// if(la introduccion ha ido bien){
+		res.status(200).json({ result: "success" });
+		//} else error
+	} else {
+		res.status(200).json({
+			result: "error",
+			reason: "user_already_registered",
+		});
+	}
+};
