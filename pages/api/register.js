@@ -10,7 +10,7 @@ export default async (req, res) => {
 	const user = await selectPlayerDB(mensaje.username);
 
 	// checks is the username is already taken
-	if (user == undefined) {
+	if (user == undefined) { // se puede poner == null
 		//const salt = crypto.randomBytes(16).toString("hex")
 
 		const query = {

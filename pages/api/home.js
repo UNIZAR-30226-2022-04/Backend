@@ -1,17 +1,15 @@
+import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
 import users from "../../lib/users"
 
 // Al ir a http://localhost:3000/api/home te devuelve el siguiente json
-export default function handler(req, res) {
+export default async (req, res) => {
     const mensaje = req.body;
 
-    // TODO
-    // searches for the user in the DB
-    const user = users.find(user => user.username == mensaje.username)
-    // END TODO
+    const user = await selectPlayerDB(mensaje.username);
 
     // checks the autenticity
     if (user != null){
-        if (user.password == mensaje.password){
+        if (user.password_hash == mensaje.password){ //cambiar por password + anadir mecanismo hash
             // TODO
             // looks for the top N players within the friends set
             const bestFour = [  // top 4 friends with the higest score
@@ -20,12 +18,13 @@ export default function handler(req, res) {
                 {"username": users[2].username, "stars": users[2].stars},
                 {"username": users[5].username, "stars": users[5].stars}
             ]
-            const notifications = 3   // amount of notifications (DB NEEDED)
             // END TODO
+            const notifications = 2 // sustituir por inferior cuando se puedan mandar notificaciones
+            //const notifications = user.receiver.length    // amount of notifications
             res.status(200).json({  result:'success',
-                                    picture: user.picture,
+                                    picture: user.image_ID,
                                     stars: user.stars,
-                                    coins: user.coins,
+                                    coins: user.mooncoins,
                                     bestFour, notifications});
         } else {
             res.status(200).json({ result:'error',reason:'wrong_password'});

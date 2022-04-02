@@ -1,4 +1,3 @@
-import users from "../../lib/users"
 import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
 
 // Al ir a http://localhost:3000/api/manage_friends te devuelve el siguiente json

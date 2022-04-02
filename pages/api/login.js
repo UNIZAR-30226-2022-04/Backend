@@ -1,18 +1,15 @@
-import users from "../../lib/users"
+import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
 
 // Al ir a http://localhost:3000/api/login te devuelve el siguiente json
-export default function handler(req, res) {
+export default async (req, res) => {
     const mensaje = req.body;
 
-    // TODO
-    // searches for the user in the DB
-    const user = users.find(user => user.username == mensaje.username)
-    // END TODO
+    const user = await selectPlayerDB(mensaje.username);
 
     // checks if the requested user exists
     if (user != null){
         // checks password
-        if (user.password == mensaje.password){
+        if (user.password_hash == mensaje.password){ //cambiar por password + anadir mecanismo hash
             res.status(200).json({result:'success'});
         } else {
             res.status(200).json({ result:'error',reason:'wrong_password'});

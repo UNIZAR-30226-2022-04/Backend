@@ -7,12 +7,15 @@ export default async (req, res) => {
 
     // searches for the user in the DB
     const user = await selectPlayerDB(mensaje.username);
+
     // TODO
     // looks for friends
     const friends = [users[0].username,users[1].username];
-    // checks notifications
-    const notifications = [users[2].username,users[3].username];  // pending users
     // END TODO
+
+    // checks notifications
+    const notifications = [users[2].username,users[3].username];  // sustituir por inferior cuando se puedan mandar notificaciones
+    //const notifications = user.receiver   // pending users
 
     // checks the autenticity
     if (user != null){
