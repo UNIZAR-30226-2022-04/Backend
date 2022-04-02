@@ -4,9 +4,9 @@ import users from "../../lib/users"
 export default function handler(req, res) {
     const mensaje = req.body;
 
-    // TODO
     // searches for the user in the DB
-    const user = users.find(user => user.username == mensaje.username);
+    const user = await selectPlayerDB(mensaje.username);
+    // TODO
     // looks for friends
     const friends = [users[0].username,users[1].username];
     // checks notifications

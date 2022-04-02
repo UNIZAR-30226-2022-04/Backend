@@ -4,10 +4,7 @@ import users from "../../lib/users"
 export default function handler(req, res) {
     const mensaje = req.body;
 
-    // TODO
-    // searches for the user in the DB
-    const user = users.find(user => user.username == mensaje.username)
-    // END TODO
+    const user = await selectPlayerDB(mensaje.username);
 
     // checks the autenticity
     if (user != null){
