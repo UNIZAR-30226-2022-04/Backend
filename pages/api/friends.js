@@ -1,29 +1,30 @@
-import users from "../../lib/users"
+import users from "../../lib/users";
 import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
 
 // Al ir a http://localhost:3000/api/friends te devuelve el siguiente json
 export default async (req, res) => {
-    const mensaje = req.body;
+	const mensaje = req.body;
 
-    // searches for the user in the DB
-    const user = await selectPlayerDB(mensaje.username);
+	// searches for the user in the DB
+	const user = await selectPlayerDB(mensaje.username);
 
-    // looks for friends
-    const friends = [users[0].username,users[1].username];  // sustituir por inferior cuando se puedan hacer amistades
-    //const friends = user.friend   // friends of the user
+	// looks for friends
+	const friends = [users[0].username, users[1].username]; // sustituir por inferior cuando se puedan hacer amistades
+	//const friends = user.friend   // friends of the user
 
-    // checks notifications
-    const notifications = [users[2].username,users[3].username];  // sustituir por inferior cuando se puedan mandar notificaciones
-    //const notifications = user.receiver   // pending users
+	// checks notifications
+	const notifications = [users[2].username, users[3].username]; // sustituir por inferior cuando se puedan mandar notificaciones
+	//const notifications = user.receiver   // pending users
 
-    // checks the autenticity
-    if (user != null){
-        if (user.password_hash == mensaje.password){ //cambiar por password + anadir mecanismo hash
-            res.status(200).json({friends ,notifications});
-        } else {
-            res.status(200).json({ result:'error',reason:'wrong_password'}); //wrong_validation?
-        }
-    } else {
-        res.status(200).json({ result:'error',reason:'user_not_found'}); //wrong_validation y unificar ifs?
-    }
-}
+	// checks the autenticity
+	if (user != undefined) {
+		if (user.password_hash == mensaje.password) {
+			//cambiar por password + anadir mecanismo hash
+			res.status(200).json({ result: "success", friends, notifications });
+		} else {
+			res.status(200).json({ result: "error", reason: "wrong_password" }); //wrong_validation?
+		}
+	} else {
+		res.status(200).json({ result: "error", reason: "user_not_found" }); //wrong_validation y unificar ifs?
+	}
+};

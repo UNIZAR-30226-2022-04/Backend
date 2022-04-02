@@ -2,20 +2,21 @@ import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
 
 // Al ir a http://localhost:3000/api/delete_user te devuelve el siguiente json
 export default async (req, res) => {
-    const mensaje = req.body;
+	const mensaje = req.body;
 
-    const user = await selectPlayerDB(mensaje.username);
+	const user = await selectPlayerDB(mensaje.username);
 
-    // checks if the requested user exists
-    if (user != null){
-        // checks password
-        if (user.password_hash == mensaje.password){ //cambiar por password + anadir mecanismo hash
-            // TODO DELETE USER FROM DB HERE
-            res.status(200).json({result:'success'});
-        } else {
-            res.status(200).json({ result:'error',reason:'wrong_password'});
-        }
-    } else {
-        res.status(200).json({ result:'error',reason:'user_not_found'});
-    }
-}
+	// checks if the requested user exists
+	if (user != undefined) {
+		// checks password
+		if (user.password_hash == mensaje.password) {
+			//cambiar por password + anadir mecanismo hash
+			// TODO DELETE USER FROM DB HERE
+			res.status(200).json({ result: "success" });
+		} else {
+			res.status(200).json({ result: "error", reason: "wrong_password" });
+		}
+	} else {
+		res.status(200).json({ result: "error", reason: "user_not_found" });
+	}
+};
