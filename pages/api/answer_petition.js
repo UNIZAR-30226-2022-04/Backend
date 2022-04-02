@@ -2,19 +2,19 @@ import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
 
 // Al ir a http://localhost:3000/api/answer_petition te devuelve el siguiente json
 export default async (req, res) => {
-	const mensaje = req.body;
+	const message = req.body;
 
-	const user = await selectPlayerDB(mensaje.username);
+	const user = await selectPlayerDB(message.username);
 
 	// checks the autenticity
 	if (user != undefined) {
-		if (user.password_hash == mensaje.password) {
+		if (user.password_hash == message.password) {
 			//cambiar por password + anadir mecanismo hash
 
-			const targetUser = await selectPlayerDB(mensaje.targetUser);
+			const targetUser = await selectPlayerDB(message.targetUser);
 
 			if (targetUser != undefined) {
-				if (mensaje.answer) {
+				if (message.answer) {
 					// TODO ANSWER YES TO PETITION HERE
 				} else {
 					// TODO ANSWER NO TO PETITION HERE

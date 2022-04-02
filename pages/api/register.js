@@ -5,9 +5,9 @@ import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
 
 // Al ir a http://localhost:3000/api/register te devuelve el siguiente json
 export default async (req, res) => {
-	const mensaje = req.body;
+	const message = req.body;
 
-	const user = await selectPlayerDB(mensaje.username);
+	const user = await selectPlayerDB(message.username);
 
 	// checks is the username is already taken
 	if (user == undefined) {
@@ -15,11 +15,11 @@ export default async (req, res) => {
 		//const salt = crypto.randomBytes(16).toString("hex")
 
 		const query = {
-			username: mensaje.username,
-			email: mensaje.email,
+			username: message.username,
+			email: message.email,
 			//salt: salt,
-			password_hash: mensaje.password,
-			//password: CryptoJS.SHA512(salt + mensaje.password).toString(),
+			password_hash: message.password,
+			//password: CryptoJS.SHA512(salt + message.password).toString(),
 			image_ID: 0, // ID number of the default profile picture (HARDCODED)
 			stars: 0, // amount of initial stars (HARDCODED)
 			mooncoins: 100, // amount of initial coins (HARCODED)

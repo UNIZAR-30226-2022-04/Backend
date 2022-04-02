@@ -2,14 +2,14 @@ import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
 
 // Al ir a http://localhost:3000/api/delete_user te devuelve el siguiente json
 export default async (req, res) => {
-	const mensaje = req.body;
+	const message = req.body;
 
-	const user = await selectPlayerDB(mensaje.username);
+	const user = await selectPlayerDB(message.username);
 
 	// checks if the requested user exists
 	if (user != undefined) {
 		// checks password
-		if (user.password_hash == mensaje.password) {
+		if (user.password_hash == message.password) {
 			//cambiar por password + anadir mecanismo hash
 			// TODO DELETE USER FROM DB HERE
 			res.status(200).json({ result: "success" });

@@ -3,13 +3,13 @@ import users from "../../lib/users";
 
 // Al ir a http://localhost:3000/api/home te devuelve el siguiente json
 export default async (req, res) => {
-	const mensaje = req.body;
+	const message = req.body;
 
-	const user = await selectPlayerDB(mensaje.username);
+	const user = await selectPlayerDB(message.username);
 
 	// checks the autenticity
 	if (user != undefined) {
-		if (user.password_hash == mensaje.password) {
+		if (user.password_hash == message.password) {
 			//cambiar por password + anadir mecanismo hash
 			// TODO
 			// looks for the top N players within the friends set

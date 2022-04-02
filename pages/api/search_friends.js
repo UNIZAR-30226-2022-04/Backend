@@ -2,16 +2,16 @@ import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
 
 // Al ir a http://localhost:3000/api/search_friends te devuelve el siguiente json
 export default async (req, res) => {
-	const mensaje = req.body;
+	const message = req.body;
 
-	const user = await selectPlayerDB(mensaje.username);
+	const user = await selectPlayerDB(message.username);
 
 	// checks the autenticity
 	if (user != undefined) {
-		if (user.password_hash == mensaje.password) {
+		if (user.password_hash == message.password) {
 			//cambiar por password + anadir mecanismo hash
 
-			const targetUser = await selectPlayerDB(mensaje.searchedName);
+			const targetUser = await selectPlayerDB(message.searchedName);
 
 			if (targetUser != undefined) {
 				const picture = targetUser.image_ID;
