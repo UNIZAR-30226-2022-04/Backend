@@ -1,4 +1,4 @@
-//import users from "../../lib/users"
+import users from "../../lib/users"
 import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
 
 // Al ir a http://localhost:3000/api/manage_friends te devuelve el siguiente json
@@ -11,10 +11,7 @@ export default async (req, res) => {
     if (user != null){
         if (user.password == mensaje.password){
             
-            // TODO 
-            // looks for the target user in the DB
-            const targetUser = users.find(user => user.username == mensaje.targetUser)
-            // END TODO
+            const targetUser = await selectPlayerDB(mensaje.targetUser);
 
             if (targetUser != null){
                 if (mensaje.type == "add"){
