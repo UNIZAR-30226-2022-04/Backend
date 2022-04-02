@@ -1,6 +1,6 @@
 import crypto from "crypto";
-import { createPlayerDB } from "../../prisma/queries/CREATE/user";
-import { selectPlayerDB } from "../../prisma/queries/SELECT/user";
+import { createPlayerDB } from "../../prisma/queries/CREATE/player";
+import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
 //import CryptoJS from "crypto-js"
 
 // Al ir a http://localhost:3000/api/register te devuelve el siguiente json
