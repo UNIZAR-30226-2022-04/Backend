@@ -1,25 +1,11 @@
 import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
-import { selectFriendshipDB } from "../../prisma/queries/SELECT/friendship";
-import users from "../../lib/users";
+import { selectPetitionsDB } from "../../prisma/queries/SELECT/petition";
+import {selectFriends} from "../../lib/Friendships";
 
 function comparePoints(user1, user2) {
 	if (user1.stars < user2.stars) return 1;
 	if (user1.stars < user2.stars) return -1;
 	return 0;
-}
-
-async function selectFriends(username) {
-	var friends = [];
-	let data = await selectFriendshipDB(username);
-	friends.push(username);
-	for (const row in data) {
-		if (data[row].username == username) {
-			friends.push(data[row].friendname);
-		} else {
-			friends.push(data[row].username);
-		}
-	}
-	return friends;
 }
 
 // Al ir a http://localhost:3000/api/home te devuelve el siguiente json
@@ -35,9 +21,9 @@ export default async (req, res) => {
 			var ranking = [];
 			// looks for the top N players within the friends set
 			ranking = await selectFriends(message.username);
-			//ranking.sort(comparePoints);
+			ranking.sort(comparePoints);
 
-			const bestFour = [
+			let bestFour = [
 				// top 4 friends with the higest score
 				//{ username: ranking[0].username, stars: ranking[0].stars },
 				//{ username: ranking[1].username, stars: ranking[1].stars },
@@ -50,8 +36,8 @@ export default async (req, res) => {
 				bestFour.push(u);
 			}
 
-			const notifications = 2; // sustituir por inferior cuando se puedan mandar notificaciones
-			//const notifications = user.receiver.length; // amount of notifications
+			const notifications = selectPetitionsDB(message.username).length; // amount of notifications
+
 			res.status(200).json({
 				result: "success",
 				picture: user.image_ID,
