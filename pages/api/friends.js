@@ -1,5 +1,5 @@
-import users from "../../lib/users";
 import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
+import {selectFriends} from "../../lib/Friendships";
 
 // Al ir a http://localhost:3000/api/friends te devuelve el siguiente json
 export default async (req, res) => {
