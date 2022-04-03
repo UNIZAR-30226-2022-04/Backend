@@ -18,9 +18,10 @@ export default async (req, res) => {
 	if (user != undefined) {
 		if (user.password_hash == message.password) {
 			//cambiar por password + anadir mecanismo hash
-			var ranking = [];
+
 			// looks for the top N players within the friends set
-			ranking = await selectFriends(message.username);
+			let ranking = await selectFriends(message.username);
+			ranking.push(username);
 			ranking.sort(comparePoints);
 
 			let bestFour = [
