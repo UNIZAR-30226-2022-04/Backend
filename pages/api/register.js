@@ -25,10 +25,20 @@ export default async (req, res) => {
 			mooncoins: 100, // amount of initial coins (HARCODED)
 		};
 
-		const user = await createPlayerDB(query);
-
+		try {
+			await createPlayerDB(query);
+		} catch (e) {
+			if (e.code == "P2002") {
+				//Unique constraint failed on the {constraint}
+				res.status(200).json({
+					result: "error",
+					reason: "email_already_registered",
+				});
+				return;
+			}
+		}
 		// if(la introduccion ha ido bien){
-		res.status(200).json({ result: "success" });
+		res.status(200).json({ result: "success", reason: "" });
 		//} else error
 	} else {
 		res.status(200).json({

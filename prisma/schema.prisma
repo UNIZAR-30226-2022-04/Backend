@@ -14,7 +14,7 @@ model Player {
   username      String        @id @db.VarChar(30)
   password_hash String        @db.VarChar(30)
   email         String        @unique @db.VarChar(40)
-  image_ID      Int?
+  image_ID      Int           @default(0)
   mooncoins     Int           @default(100)
   stars         Int           @default(0)
   receiver      Petition[]    @relation("receiver")
@@ -26,9 +26,9 @@ model Player {
 }
 
 model Petition {
-  receiver      Player @relation(name: "receiver", fields: [username], references: [username])
+  questioner    Player @relation(name: "questioner", fields: [username], references: [username])
   username      String @db.VarChar(30)
-  questioner    Player @relation(name: "questioner", fields: [petition_name], references: [username])
+  receiver      Player @relation(name: "receiver", fields: [petition_name], references: [username])
   petition_name String @db.VarChar(30)
 
   @@id([username, petition_name])

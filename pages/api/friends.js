@@ -9,18 +9,23 @@ export default async (req, res) => {
 	const user = await selectPlayerDB(message.username);
 
 	// looks for friends
-	const friends = [users[0].username, users[1].username]; // sustituir por inferior cuando se puedan hacer amistades
-	//const friends = user.friend   // friends of the user
+	//const friends = [users[0].username, users[1].username]; // sustituir por inferior cuando se puedan hacer amistades
+	const friends = user.friend; // friends of the user
 
 	// checks notifications
-	const notifications = [users[2].username, users[3].username]; // sustituir por inferior cuando se puedan mandar notificaciones
-	//const notifications = user.receiver   // pending users
+	//const notifications = [users[2].username, users[3].username]; // sustituir por inferior cuando se puedan mandar notificaciones
+	const notifications = user.receiver; // pending users
 
 	// checks the autenticity
 	if (user != undefined) {
 		if (user.password_hash == message.password) {
 			//cambiar por password + anadir mecanismo hash
-			res.status(200).json({ result: "success", friends, notifications });
+			res.status(200).json({
+				result: "success",
+				friends,
+				notifications,
+				reason: "",
+			});
 		} else {
 			res.status(200).json({ result: "error", reason: "wrong_password" }); //wrong_validation?
 		}

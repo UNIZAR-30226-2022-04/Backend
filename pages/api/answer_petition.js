@@ -1,4 +1,6 @@
 import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
+import { createFriendshipDB } from "../../prisma/queries/CREATE/friendship";
+import { deletePetitionDB } from "../../prisma/queries/DELETE/petition";
 
 // Al ir a http://localhost:3000/api/answer_petition te devuelve el siguiente json
 export default async (req, res) => {
@@ -15,12 +17,14 @@ export default async (req, res) => {
 
 			if (targetUser != undefined) {
 				if (message.answer) {
-					// TODO ANSWER YES TO PETITION HERE
-				} else {
-					// TODO ANSWER NO TO PETITION HERE
+					await createFriendshipDB(
+						message.username,
+						message.targetUser
+					);
 				}
+				await deletePetitionDB(message.targetUser, message.username);
 			}
-			res.status(200).json({ result: "success" });
+			res.status(200).json({ result: "success", reason: "" });
 		} else {
 			res.status(200).json({ result: "error", reason: "wrong_password" });
 		}
