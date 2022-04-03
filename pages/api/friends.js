@@ -1,4 +1,5 @@
 import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
+import { selectPetitionsDB } from "../../prisma/queries/SELECT/petitions";
 import {selectFriends} from "../../lib/Friendships";
 
 // Al ir a http://localhost:3000/api/friends te devuelve el siguiente json
