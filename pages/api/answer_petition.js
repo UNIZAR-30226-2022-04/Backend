@@ -13,16 +13,16 @@ export default async (req, res) => {
 		if (user.password_hash == message.password) {
 			//cambiar por password + anadir mecanismo hash
 
-			const targetUser = await selectPlayerDB(message.targetUser);
-
+			const targetUser = await selectPlayerDB(message.target_user);
+			
 			if (targetUser != undefined) {
-				if (message.answer) {
+				if (message.answer == 1) {
 					await createFriendshipDB(
 						message.username,
-						message.targetUser
+						message.target_user
 					);
 				}
-				await deletePetitionDB(message.targetUser, message.username);
+				await deletePetitionDB(message.target_user, message.username);
 			}
 			res.status(200).json({ result: "success", reason: "" });
 		} else {

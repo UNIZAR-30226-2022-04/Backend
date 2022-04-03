@@ -1,12 +1,6 @@
 import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
-import { selectPetitionsDB } from "../../prisma/queries/SELECT/petition";
-import {selectFriends} from "../../lib/Friendships";
-
-function comparePoints(user1, user2) {
-	if (user1.stars < user2.stars) return 1;
-	if (user1.stars < user2.stars) return -1;
-	return 0;
-}
+import { selectPetitionsDB } from "../../prisma/queries/SELECT/petitions";
+import {bestN} from "../../lib/Friendships";
 
 // Al ir a http://localhost:3000/api/home te devuelve el siguiente json
 export default async (req, res) => {
@@ -20,24 +14,18 @@ export default async (req, res) => {
 			//cambiar por password + anadir mecanismo hash
 
 			// looks for the top N players within the friends set
-			let ranking = await selectFriends(message.username);
-			ranking.push(username);
-			ranking.sort(comparePoints);
+			const N = 4;	//number of players in the ranking
+			let bestFour = await bestN(user,N);
 
-			let bestFour = [
+							//[
 				// top 4 friends with the higest score
 				//{ username: ranking[0].username, stars: ranking[0].stars },
 				//{ username: ranking[1].username, stars: ranking[1].stars },
 				//{ username: ranking[2].username, stars: ranking[2].stars },
 				//{ username: ranking[3].username, stars: ranking[3].stars },
-			];
+			//];
 
-			for (var i = 0; i < ranking.length && i < 4; i++) {
-				const u = { username: ranking[i], stars: 0 };
-				bestFour.push(u);
-			}
-
-			const notifications = selectPetitionsDB(message.username).length; // amount of notifications
+			const notifications = (await selectPetitionsDB(message.username)).length; // amount of notifications
 
 			res.status(200).json({
 				result: "success",

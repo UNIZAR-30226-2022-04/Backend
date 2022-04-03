@@ -1,11 +1,11 @@
 import prisma from "../../../lib/prisma";
 
-export async function selectFriendshipDB(username,friendname){
+export async function selectFriendshipsDB(username) {
 	const query = await prisma.friendship.findMany({
 		where: {
-			AND: [
+			OR: [
 				{ username: { equals: username } },
-				{ friendname: { equals: friendname } },
+				{ friendname: { equals: username } },
 			],
 		},
 	});

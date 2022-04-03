@@ -3,7 +3,9 @@ import { createFriendshipDB } from "../../prisma/queries/CREATE/friendship";
 import { deleteFriendshipDB } from "../../prisma/queries/DELETE/friendship";
 import { selectPetitionDB } from "../../prisma/queries/SELECT/petition";
 import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
+import { selectFriendshipDB } from "../../prisma/queries/SELECT/friendship";
 import { deletePetitionDB } from "../../prisma/queries/DELETE/petition";
+
 
 // Al ir a http://localhost:3000/api/manage_friends te devuelve el siguiente json
 export default async (req, res) => {
@@ -16,42 +18,57 @@ export default async (req, res) => {
 		if (user.password_hash == message.password) {
 			//cambiar por password + anadir mecanismo hash
 
-			const targetUser = await selectPlayerDB(message.targetUser);
+			const targetUser = await selectPlayerDB(message.target_user);
 
 			if (targetUser != undefined) {
 				if (message.type == "add") {
+					
 					// Send petition to targetUser
 					const petition = await selectPetitionDB(
-						message.targetUser,
+						message.target_user,
 						message.username
 					);
 					if (petition == undefined) {
-						// no petition from targetUser -> creates a petition
-						await createPetitionDB(
+						const petition = await selectPetitionDB(
 							message.username,
-							message.targetUser
+							message.target_user
 						);
+						if (petition == undefined){
+							// no petition from both -> creates a petition
+							await createPetitionDB(
+							message.username,
+							message.target_user
+						);
+						}
+						
 					} else {
 						// petition from targetUser -> creates a friendship
 						await createFriendshipDB(
 							message.username,
-							message.targetUser
+							message.target_user
 						);
 						await deletePetitionDB(
-							message.targetUser,
+							message.target_user,
 							message.username
 						);
 					}
 				} else if (message.type == "delete") {
 					//Delete from friends
-					await deleteFriendshipDB(
-						message.username,
-						message.targetUser
-					);
-					await deleteFriendshipDB(
-						message.targetUser,
-						message.username
-					);
+					const frDirection = await selectFriendshipDB(message.username,
+															message.targetUser)
+					
+					if (frDirection == undefined){
+						await deleteFriendshipDB(
+							message.username,
+							message.target_user
+						);
+					} else {
+						await deleteFriendshipDB(
+							message.target_user,
+							message.username
+						);
+					}
+					
 				}
 			}
 			res.status(200).json({

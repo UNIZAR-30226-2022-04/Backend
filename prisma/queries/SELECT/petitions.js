@@ -6,6 +6,5 @@ export async function selectPetitionsDB(username) {
 			petition_name: { equals: username },
 		},
 	});
-
 	return query;
 }

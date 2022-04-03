@@ -4,7 +4,7 @@ export async function deleteFriendshipDB(username, friendname) {
 	const query = await prisma.petition.deleteMany({
 		where: {
 			username: username,
-			friendname: friendname,
+			petition_name: friendname,
 		},
 	});
 	return query;
