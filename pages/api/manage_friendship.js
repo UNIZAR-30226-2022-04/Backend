@@ -57,18 +57,18 @@ export default async (req, res) => {
 					const frDirection = await selectFriendshipDB(message.username,
 															message.targetUser)
 					
-					if (frDirection == undefined){
+					if (frDirection.length != 0){
 						await deleteFriendshipDB(
 							message.username,
 							message.targetUser
 						);
+
 					} else {
 						await deleteFriendshipDB(
 							message.targetUser,
 							message.username
 						);
 					}
-					
 				}
 			}
 			res.status(200).json({

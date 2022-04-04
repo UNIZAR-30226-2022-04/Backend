@@ -9,9 +9,5 @@ export async function deleteFriendshipDB(username, friendname) {
 			],
 		},
 	});
-
-	console.log(query)
-	console.log(username)
-	console.log(friendname)
 	return query;
 }
