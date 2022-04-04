@@ -18,26 +18,26 @@ export default async (req, res) => {
 		if (user.password_hash == message.password) {
 			//cambiar por password + anadir mecanismo hash
 
-			const targetUser = await selectPlayerDB(message.target_user);
+			const targetUser = await selectPlayerDB(message.targetUser);
 
 			if (targetUser != undefined) {
 				if (message.type == "add") {
 					
 					// Send petition to targetUser
 					const petition = await selectPetitionDB(
-						message.target_user,
+						message.targetUser,
 						message.username
 					);
 					if (petition == undefined) {
 						const petition = await selectPetitionDB(
 							message.username,
-							message.target_user
+							message.targetUser
 						);
 						if (petition == undefined){
 							// no petition from both -> creates a petition
 							await createPetitionDB(
 							message.username,
-							message.target_user
+							message.targetUser
 						);
 						}
 						
@@ -45,10 +45,10 @@ export default async (req, res) => {
 						// petition from targetUser -> creates a friendship
 						await createFriendshipDB(
 							message.username,
-							message.target_user
+							message.targetUser
 						);
 						await deletePetitionDB(
-							message.target_user,
+							message.targetUser,
 							message.username
 						);
 					}
@@ -60,11 +60,11 @@ export default async (req, res) => {
 					if (frDirection == undefined){
 						await deleteFriendshipDB(
 							message.username,
-							message.target_user
+							message.targetUser
 						);
 					} else {
 						await deleteFriendshipDB(
-							message.target_user,
+							message.targetUser,
 							message.username
 						);
 					}
