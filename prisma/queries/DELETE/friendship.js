@@ -1,11 +1,17 @@
 import prisma from "../../../lib/prisma";
 
 export async function deleteFriendshipDB(username, friendname) {
-	const query = await prisma.petition.deleteMany({
+	const query = await prisma.friendship.deleteMany({
 		where: {
-			username: username,
-			petition_name: friendname,
+			AND: [
+				{ username: { equals: username } },
+				{ friendname: { equals: friendname } },
+			],
 		},
 	});
+
+	console.log(query)
+	console.log(username)
+	console.log(friendname)
 	return query;
 }
