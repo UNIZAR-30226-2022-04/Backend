@@ -18,4 +18,10 @@ export default async (req, res) => {
 	} else {
 		res.status(200).json({ result: "error", reason: "user_not_found" });
 	}
+	if (message.username.lenth==0||message.password.lenth==0){
+		res.status(200).json({ result: "error", reason: "invalid credentials" });
+	}
+	console.log("Username:",message.username)
+	console.log("Password:",message.password)
+
 };
