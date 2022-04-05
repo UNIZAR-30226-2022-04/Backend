@@ -6,6 +6,10 @@ export default async (req, res) => {
 
 	const user = await selectPlayerDB(message.username);
 
+	if (message.username.length==0||message.password.length==0){
+		res.status(200).json({ result: "error", reason: "invalid credentials" });
+	}
+
 	// checks if the requested user exists
 	if (user != undefined) {
 		// checks password
@@ -18,7 +22,7 @@ export default async (req, res) => {
 	} else {
 		res.status(200).json({ result: "error", reason: "user_not_found" });
 	}
-	if (message.username.lenth==0||message.password.lenth==0){
+	if (message.username.length==0||message.password.length==0){
 		res.status(200).json({ result: "error", reason: "invalid credentials" });
 	}
 	console.log("Username:",message.username)
