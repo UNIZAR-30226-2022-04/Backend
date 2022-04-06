@@ -1,6 +1,7 @@
 import { deletePlayerDB } from "../../prisma/queries/DELETE/player";
 import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
 
+
 // Al ir a http://localhost:3000/api/delete_user te devuelve el siguiente json
 export default async (req, res) => {
 	const message = req.body;
