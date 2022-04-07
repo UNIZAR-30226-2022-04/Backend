@@ -1,8 +1,7 @@
-import { deletePlayerDB } from "../../prisma/queries/DELETE/player";
+import { updatePlayerDB } from "../../prisma/queries/PUT/player";
 import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
 
-
-// Al ir a http://localhost:3000/api/delete_user te devuelve el siguiente json
+// Al ir a http://localhost:3000/api/change_picture te devuelve el siguiente json
 export default async (req, res) => {
 	const message = req.body;
 
@@ -13,7 +12,9 @@ export default async (req, res) => {
 		// checks password
 		if (user.password_hash == message.password) {
 			//cambiar por password + anadir mecanismo hash
-			await deletePlayerDB(message.username);
+			user.stars = message.newStars;
+			user.mooncoins = message.newMooncoins;
+			await updatePlayerDB(user.username, user);
 			res.status(200).json({ result: "success", reason: "" });
 		} else {
 			res.status(200).json({ result: "error", reason: "wrong_password" });
