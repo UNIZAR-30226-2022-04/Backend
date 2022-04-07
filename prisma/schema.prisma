@@ -44,7 +44,7 @@ model Friendship {
 }
 
 model Story {
-  story_id    Int           @id
+  story_id    Int           @id @default(autoincrement())
   story       Participant[] @relation("story")
   tale        Tale_mode[]   @relation("tale")
   quick_match Quick_match[] @relation("quick_match")
@@ -65,12 +65,11 @@ model Participant {
 model Tale_mode {
   tale                Story   @relation(name: "tale", fields: [story_id], references: [story_id], onDelete: Cascade) //Prisma no permite herencia
   story_id            Int     @id
-  max_turns           Int     @unique
-  max_paragraph_chars Int     @unique
-  max_write_time      Float   @unique
-  privacy             Boolean //1=private, 0=public
-  finished            Boolean //1=finished, 0=not finished
-  scored              Boolean //1=scored, 0=not scored
+  max_turns           Int     @default(1)
+  max_paragraph_chars Int     @default(50)
+  privacy             Boolean @default(false)//1=private, 0=public
+  finished            Boolean @default(false)
+  scored              Boolean @default(false)//1=scored, 0=not scored
   title               String  @db.VarChar(50)
 }
 
@@ -82,8 +81,8 @@ model Quick_match {
 
 model Paragraph {
   text        String @db.VarChar(250)
-  Score       Float  @unique
-  turn_number Int
+  Score       Float  @default(0)
+  turn_number Int    @default(0)
   contributor Player @relation(name: "contributor", fields: [username], references: [username], onDelete: Cascade)
   username    String @db.VarChar(30)
   contributed Story  @relation(name: "contributed", fields: [story_id], references: [story_id], onDelete: Cascade)
