@@ -1,5 +1,4 @@
 import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
-import {selectFriends} from "../../lib/Friendships";
 import {selectFriendnames} from "../../lib/Friendships";
 
 // Al ir a http://localhost:3000/api/search_friends te devuelve el siguiente json
@@ -19,7 +18,7 @@ export default async (req, res) => {
 				const picture = targetUser.image_ID;
 
 				let friendnames = await selectFriendnames(message.username);
-				const isFriend = friendnames.indexOf(message.searchedName) !== -1
+				const isFriend = friendnames.indexOf(message.searchedName) != -1
 
 				res.status(200).json({
 					result: "success",
