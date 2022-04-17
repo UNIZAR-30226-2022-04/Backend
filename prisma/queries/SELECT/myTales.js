@@ -1,26 +1,15 @@
 import prisma from "../../../lib/prisma";
-import { selectTaleDB } from "./tale_mode";
 
 export async function selectmyTalesDB(username) {
-	const query = await prisma.paragraph.findMany({
+	const participant = await prisma.participant.findMany({
 		where: {
-			AND: [
-				{
-					username: {
-						equals: username,
-					},
-				},
-				{
-					turn_number: {
-						equals: 0,
-					},
-				},
-			],
+			username: { equals: username },
+			creator: { equals: true },
 		},
 	});
 
 	const myTalesId = [];
-	query.forEach((paragraph) => myTalesId.push(paragraph.story_id));
+	participant.forEach((part) => myTalesId.push(part.story_id));
 
 	const myTales = await prisma.tale_mode.findMany({
 		where: {

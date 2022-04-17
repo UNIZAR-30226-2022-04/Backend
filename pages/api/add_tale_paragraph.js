@@ -1,5 +1,7 @@
 import { createParagraphDB } from "../../prisma/queries/CREATE/paragraph";
+import { createParticipantDB } from "../../prisma/queries/CREATE/participant";
 import { updateTaleDB } from "../../prisma/queries/PUT/tale_mode";
+import { selectParticipantDB } from "../../prisma/queries/SELECT/participant";
 import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
 import { selectTaleDB } from "../../prisma/queries/SELECT/tale_mode";
 
@@ -13,6 +15,21 @@ export default async (req, res) => {
 	if (user != undefined) {
 		if (user.password_hash == message.password) {
 			const tale = await selectTaleDB(message.id);
+
+			const participant = await selectParticipantDB(
+				message.username,
+				message.id
+			);
+
+			if (participant[0].username == undefined) {
+				const dataParticipant = {
+					username: message.username,
+					story_id: message.id,
+					creator: false,
+					voted: "",
+				};
+				await createParticipantDB(dataParticipant);
+			}
 
 			const dataParagraph = {
 				text: message.body,

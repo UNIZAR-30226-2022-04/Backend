@@ -56,7 +56,7 @@ model Participant {
   username    String  @db.VarChar(30)
   story       Story   @relation(name: "story", fields: [story_id], references: [story_id], onDelete: Cascade)
   story_id    Int
-  voted       String  @unique @db.VarChar(30)
+  voted       String  @db.VarChar(30)
   creator     Boolean
 
   @@id([username, story_id])

@@ -1,4 +1,5 @@
 import { createParagraphDB } from "../../prisma/queries/CREATE/paragraph";
+import { createParticipantDB } from "../../prisma/queries/CREATE/participant";
 import { createStoryDB } from "../../prisma/queries/CREATE/story";
 import { createTaleDB } from "../../prisma/queries/CREATE/tale_mode";
 import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
@@ -29,6 +30,14 @@ export default async (req, res) => {
 				story_id: story.story_id,
 			};
 			await createParagraphDB(dataParagraph);
+
+			const dataParticipant = {
+				username: message.username,
+				story_id: story.story_id,
+				creator: true,
+				voted: "",
+			};
+			await createParticipantDB(dataParticipant);
 
 			res.status(200).json({ result: "success", reason: "" });
 		} else {
