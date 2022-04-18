@@ -17,11 +17,5 @@ export async function getStaticProps() {
 }
 
 export default function Home({ allPostsData }) {
-	return (
-		<Layout home>
-			<div>POST api/login - username, password</div>
-			<div>POST api/register - username, password</div>
-			<div>GET api/users</div>
-		</Layout>
-	);
+	return <Layout home></Layout>;
 }
