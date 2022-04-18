@@ -14,6 +14,8 @@ export async function selectmyTalesDB(username) {
 	const myTales = await prisma.tale_mode.findMany({
 		where: {
 			story_id: { in: myTalesId },
+			finished: { equals: false },
+			scored: { equals: false },
 		},
 	});
 

@@ -1,13 +1,9 @@
-import { selectFriendnames } from "../../../lib/Friendships";
 import prisma from "../../../lib/prisma";
 
-export async function selectfriendTalesDB(username) {
-	const friends = await selectFriendnames(username);
-
+export async function selecttalesForVoteDB(username) {
 	const participant = await prisma.participant.findMany({
 		where: {
-			username: { in: friends },
-			creator: { equals: true },
+			username: { equals: username },
 		},
 	});
 
@@ -17,7 +13,7 @@ export async function selectfriendTalesDB(username) {
 	const myTales = await prisma.tale_mode.findMany({
 		where: {
 			story_id: { in: myTalesId },
-			finished: { equals: false },
+			finished: { equals: true },
 			scored: { equals: false },
 		},
 	});
@@ -30,6 +26,16 @@ export async function selectfriendTalesDB(username) {
 			},
 		});
 		tale.creator = creator[0].username;
+	}
+
+	for (const tale of myTales) {
+		const voted = await prisma.participant.findMany({
+			where: {
+				story_id: { equals: tale.story_id },
+				username: { equals: username },
+			},
+		});
+		tale.meVoted = voted[0].username == "" ? false : true;
 	}
 
 	return myTales;

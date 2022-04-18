@@ -5,7 +5,9 @@ export async function selectParagraphsDB(story_id) {
 		where: {
 			story_id: { equals: story_id },
 		},
-		orderBy: turn,
+		orderBy: {
+			turn_number: "asc",
+		},
 	});
 
 	return query;

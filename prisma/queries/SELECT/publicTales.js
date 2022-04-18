@@ -1,12 +1,21 @@
 import { selectFriendnames } from "../../../lib/Friendships";
 import prisma from "../../../lib/prisma";
 
-export async function selectfriendTalesDB(username) {
+export async function selectpublicTalesDB(username) {
 	const friends = await selectFriendnames(username);
 
 	const participant = await prisma.participant.findMany({
 		where: {
-			username: { in: friends },
+			NOT: {
+				OR: [
+					{
+						username: { in: friends },
+					},
+					{
+						username: { equals: username },
+					},
+				],
+			},
 			creator: { equals: true },
 		},
 	});
@@ -19,6 +28,7 @@ export async function selectfriendTalesDB(username) {
 			story_id: { in: myTalesId },
 			finished: { equals: false },
 			scored: { equals: false },
+			privacy: { equals: false },
 		},
 	});
 

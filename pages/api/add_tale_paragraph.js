@@ -21,7 +21,10 @@ export default async (req, res) => {
 				message.id
 			);
 
-			if (participant[0].username == undefined) {
+			if (
+				participant[0] == undefined ||
+				participant[0].username == undefined
+			) {
 				const dataParticipant = {
 					username: message.username,
 					story_id: message.id,
