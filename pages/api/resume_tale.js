@@ -20,7 +20,7 @@ export default async (req, res) => {
 				const paragraphs = await selectParagraphsDB(message.id);
 
 				let friendnames = await selectFriendnames(message.username);
-				const canEdit =
+				/*const canEdit =
 					(friendnames.indexOf(paragraphs[0].username) != -1 ||
 						friendnames.indexOf(paragraphs[0].username) ==
 							message.username ||
@@ -30,20 +30,20 @@ export default async (req, res) => {
 						paragraphs[paragraphs.length - 1].username
 					) != message.username;
 
-				if (canEdit) {
+				if (canEdit) {*/
 					res.status(200).json({
 						result: "success",
 						title: tale.title,
 						reason: "",
 						paragraphs: paragraphs,
 						maxCharacters: tale.max_paragraph_chars,
-					});
+					});/*
 				} else {
 					res.status(200).json({
 						result: "error",
 						reason: "cannot_access_tale",
 					});
-				}
+				}*/
 			} else {
 				res.status(200).json({
 					result: "error",
