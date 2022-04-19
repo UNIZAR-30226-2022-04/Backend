@@ -1,9 +1,9 @@
 import prisma from "../../../lib/prisma";
 
 export async function updateParticipantDB(username, story_id, voted) {
-	const query = await prisma.participant.update({
+	const query = await prisma.participant.updateMany({
 		data: {
-			voted: voted
+			voted: voted,
 		},
 		where: {
 			AND: [
