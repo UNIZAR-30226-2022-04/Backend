@@ -35,7 +35,8 @@ export async function selecttalesForVoteDB(username) {
 				username: { equals: username },
 			},
 		});
-		tale.meVoted = voted[0].username == "" ? false : true;
+
+		tale.meVoted = voted[0].voted == "" ? false : true;
 	}
 
 	return myTales;
