@@ -15,7 +15,7 @@ export default async (req, res) => {
 			const paragraphs = await selectParagraphsDB(message.id);
 			const paraOwner = paragraphs[message.indexParagraph];
 
-			await updateParticipantDB(message.username, message.id, paraOwner);
+			await updateParticipantDB(message.username, message.id, paraOwner.username);
 
 			await updateParagraphDB(message.id, message.indexParagraph);
 			res.status(200).json({
