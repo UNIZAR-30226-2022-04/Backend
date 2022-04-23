@@ -1,9 +1,16 @@
-import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
-
+import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
+import {checkFields} from "../../../lib/checkFields";
 
 // Al ir a http://localhost:3000/api/login te devuelve el siguiente json
 export default async (req, res) => {
 	const message = req.body;
+	
+	const fields = ['username','password'];
+
+	if (!checkFields(message,fields)){
+		res.status(200).json({ result: "error", reason: "invalid credentials" });
+		return;
+	}
 
 	const user = await selectPlayerDB(message.username);
 
@@ -23,10 +30,4 @@ export default async (req, res) => {
 	} else {
 		res.status(200).json({ result: "error", reason: "user_not_found" });
 	}
-	if (message.username.length==0||message.password.length==0){
-		res.status(200).json({ result: "error", reason: "invalid credentials" });
-	}
-	console.log("Username:",message.username)
-	console.log("Password:",message.password)
-
 };

@@ -1,10 +1,18 @@
-import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
-import { createFriendshipDB } from "../../prisma/queries/CREATE/friendship";
-import { deletePetitionDB } from "../../prisma/queries/DELETE/petition";
+import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
+import { createFriendshipDB } from "../../../prisma/queries/CREATE/friendship";
+import { deletePetitionDB } from "../../../prisma/queries/DELETE/petition";
+import {checkFields} from "../../../lib/checkFields";
 
 // Al ir a http://localhost:3000/api/answer_petition te devuelve el siguiente json
 export default async (req, res) => {
 	const message = req.body;
+	
+	const fields = ['username','password','targetUser','answer'];
+
+	if (!checkFields(message,fields)){
+		res.status(200).json({ result: "error", reason: "invalid credentials" });
+		return;
+	}
 
 	const user = await selectPlayerDB(message.username);
 

@@ -1,10 +1,18 @@
-import { selectParagraphsDB } from "../../prisma/queries/SELECT/paragraphs";
-import { selectTaleDB } from "../../prisma/queries/SELECT/tale_mode";
-import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
+import { selectParagraphsDB } from "../../../prisma/queries/SELECT/paragraphs";
+import { selectTaleDB } from "../../../prisma/queries/SELECT/tale_mode";
+import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
+import {checkFields} from "../../../lib/checkFields";
 
 // Al ir a http://localhost:3000/api/get_paragraphs te devuelve el siguiente json
 export default async (req, res) => {
 	const message = req.body;
+	
+	const fields = ['username','password','id'];
+
+	if (!checkFields(message,fields)){
+		res.status(200).json({ result: "error", reason: "invalid credentials" });
+		return;
+	}
 
 	const user = await selectPlayerDB(message.username);
 

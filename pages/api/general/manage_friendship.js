@@ -1,15 +1,23 @@
-import { createPetitionDB } from "../../prisma/queries/CREATE/petition";
-import { createFriendshipDB } from "../../prisma/queries/CREATE/friendship";
-import { deleteFriendshipDB } from "../../prisma/queries/DELETE/friendship";
-import { selectPetitionDB } from "../../prisma/queries/SELECT/petition";
-import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
-import { selectFriendshipDB } from "../../prisma/queries/SELECT/friendship";
-import { deletePetitionDB } from "../../prisma/queries/DELETE/petition";
+import { createPetitionDB } from "../../../prisma/queries/CREATE/petition";
+import { createFriendshipDB } from "../../../prisma/queries/CREATE/friendship";
+import { deleteFriendshipDB } from "../../../prisma/queries/DELETE/friendship";
+import { selectPetitionDB } from "../../../prisma/queries/SELECT/petition";
+import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
+import { selectFriendshipDB } from "../../../prisma/queries/SELECT/friendship";
+import { deletePetitionDB } from "../../../prisma/queries/DELETE/petition";
+import {checkFields} from "../../../lib/checkFields";
 
 
 // Al ir a http://localhost:3000/api/manage_friends te devuelve el siguiente json
 export default async (req, res) => {
 	const message = req.body;
+	
+	const fields = ['username','password','targetUser','type'];
+
+	if (!checkFields(message,fields)){
+		res.status(200).json({ result: "error", reason: "invalid credentials" });
+		return;
+	}
 
 	const user = await selectPlayerDB(message.username);
 

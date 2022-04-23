@@ -1,12 +1,20 @@
-import { createParagraphDB } from "../../prisma/queries/CREATE/paragraph";
-import { createParticipantDB } from "../../prisma/queries/CREATE/participant";
-import { createStoryDB } from "../../prisma/queries/CREATE/story";
-import { createTaleDB } from "../../prisma/queries/CREATE/tale_mode";
-import { selectPlayerDB } from "../../prisma/queries/SELECT/player";
+import { createParagraphDB } from "../../../prisma/queries/CREATE/paragraph";
+import { createParticipantDB } from "../../../prisma/queries/CREATE/participant";
+import { createStoryDB } from "../../../prisma/queries/CREATE/story";
+import { createTaleDB } from "../../../prisma/queries/CREATE/tale_mode";
+import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
+import {checkFields} from "../../../lib/checkFields";
 
 // Al ir a http://localhost:3000/api/create_tale te devuelve el siguiente json
 export default async (req, res) => {
 	const message = req.body;
+	
+	const fields = ['username','password','title','maxTurns','maxCharacters','privacy','first_paragraph'];
+
+	if (!checkFields(message,fields)){
+		res.status(200).json({ result: "error", reason: "invalid credentials" });
+		return;
+	}
 
 	const user = await selectPlayerDB(message.username);
 
