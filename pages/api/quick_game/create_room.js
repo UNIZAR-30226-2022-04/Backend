@@ -1,16 +1,19 @@
 import { createGame } from "../../../lib/Game";
 import Player from "../../../lib/Player";
 import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
-import {checkFields} from "../../lib/checkFields";
+import { checkFields } from "../../../lib/checkFields";
 
 // Al ir a http://localhost:3000/api/quick_game/create_room te devuelve el siguiente json
 export default async (req, res) => {
 	const message = req.body;
-	
-	const fields = ['username','password','time','isPrivate','mode'];
 
-	if (!checkFields(message,fields)){
-		res.status(200).json({ result: "error", reason: "invalid credentials" });
+	const fields = ["username", "password", "time", "isPrivate", "mode"];
+
+	if (!checkFields(message, fields)) {
+		res.status(200).json({
+			result: "error",
+			reason: "invalid credentials",
+		});
 		return;
 	}
 

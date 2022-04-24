@@ -1,8 +1,4 @@
-import { selectfriendTalesDB } from "../../../prisma/queries/SELECT/friendTales";
-import { selectmyTalesDB } from "../../../prisma/queries/SELECT/myTales";
 import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
-import { selectpublicTalesDB } from "../../../prisma/queries/SELECT/publicTales";
-import { selecttalesForVoteDB } from "../../../prisma/queries/SELECT/talesForVote";
 import { checkFields } from "../../../lib/checkFields";
 import { selectParagraphsDB } from "../../../prisma/queries/SELECT/paragraphs";
 
