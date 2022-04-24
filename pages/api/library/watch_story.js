@@ -4,12 +4,13 @@ import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
 import { selectpublicTalesDB } from "../../../prisma/queries/SELECT/publicTales";
 import { selecttalesForVoteDB } from "../../../prisma/queries/SELECT/talesForVote";
 import { checkFields } from "../../../lib/checkFields";
+import { selectParagraphsDB } from "../../../prisma/queries/SELECT/paragraphs";
 
-// Al ir a http://localhost:3000/api/get_tales te devuelve el siguiente json
+// Al ir a http://localhost:3000/api/watch_story te devuelve el siguiente json
 export default async (req, res) => {
 	const message = req.body;
 
-	const fields = ["username", "password"];
+	const fields = ["username", "password", "id", "type"];
 
 	if (!checkFields(message, fields)) {
 		res.status(200).json({
@@ -24,18 +25,17 @@ export default async (req, res) => {
 	// checks if username exists
 	if (user != undefined) {
 		if (user.password_hash == message.password) {
-			const myTales = await selectmyTalesDB(message.username);
-			const friendTales = await selectfriendTalesDB(message.username);
-			const publicTales = await selectpublicTalesDB(message.username);
-			const talesForVote = await selecttalesForVoteDB(message.username);
+			var body = "";
+			const query = await selectParagraphsDB(message.id);
+
+			query.forEach((paragraph) => {
+				body += paragraph.text;
+				body += "\n";
+			});
 
 			res.status(200).json({
 				result: "success",
-				reason: "",
-				myTales: myTales,
-				friendTales: friendTales,
-				publicTales: publicTales,
-				talesForVote: talesForVote,
+				body: body,
 			});
 		} else {
 			res.status(200).json({ result: "error", reason: "wrong_password" });
