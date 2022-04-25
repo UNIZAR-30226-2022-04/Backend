@@ -23,6 +23,5 @@ export async function selectStoriesDB(username) {
             },
         },
 	});
-
 	return query;
 }

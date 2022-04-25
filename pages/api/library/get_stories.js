@@ -24,8 +24,17 @@ export default async (req, res) => {
 		// checks password
 		if (user.password_hash == message.password) {
 			//cambiar por password + anadir mecanismo hash
-            const stories = selectStoriesDB(message.username);
-			res.status(200).json({ result: "success", stories, reason: "" });
+            const query = await selectStoriesDB(message.username);
+			var stories = []
+			for (const st in query){
+				const story = {
+					id: query[st].story.story_id,
+					title: query[st].story.tale[0].title,
+					//type: query[st].story.quick_match[0].mode
+				}
+				stories[st] = story
+			}
+			res.status(200).json({ result: "success", stories: stories, reason: "" });
 		} else {
 			res.status(200).json({ result: "error", reason: "wrong_password" });
 		}
