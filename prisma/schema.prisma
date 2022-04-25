@@ -76,8 +76,8 @@ model Tale_mode {
 
 model Quick_match {
   quick_match Story @relation(name: "quick_match", fields: [story_id], references: [story_id], onDelete: Cascade) //Prisma no permite herencia
-  story_id    Int //0=normal, 1=tendencias Twitter, 2=palabras obligatorias
-  mode        Int   @unique
+  story_id    Int   @unique
+  mode        Int   //0=normal, 1=tendencias Twitter, 2=palabras obligatorias
 }
 
 model Paragraph {
