@@ -46,6 +46,7 @@ model Friendship {
 model Story {
   story_id    Int           @id @default(autoincrement())
   story       Participant[] @relation("story")
+  date        DateTime      @default(now())
   tale        Tale_mode[]   @relation("tale")
   quick_match Quick_match[] @relation("quick_match")
   contributed Paragraph[]   @relation("contributed")

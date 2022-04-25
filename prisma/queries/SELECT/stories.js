@@ -9,6 +9,7 @@ export async function selectStoriesDB(username) {
             story: {
                 select: {
                     story_id: true,
+                    date: true,
                     tale: {
                         select: {
                             title: true,

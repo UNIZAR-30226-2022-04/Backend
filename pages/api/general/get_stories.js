@@ -27,10 +27,23 @@ export default async (req, res) => {
             const query = await selectStoriesDB(message.username);
 			var stories = []
 			for (const st in query){
+				var title
+				var type
+				if (query[st].story.quick_match.length != 0){
+					title = ''
+					type = query[st].story.quick_match[0].mode
+				} else if (query[st].story.tale.length != 0){
+					title = query[st].story.tale[0].title
+					type = 'tale'
+				}
+
+				const [month, day, year]       = [query[st].story.date.getUTCMonth(), query[st].story.date.getUTCDate(), query[st].story.date.getUTCFullYear()];
+
 				const story = {
 					id: query[st].story.story_id,
-					title: query[st].story.tale[0].title,
-					//type: query[st].story.quick_match[0].mode
+					title: title,
+					type: type,
+					date: day + "/" + month + "/" + year
 				}
 				stories[st] = story
 			}
