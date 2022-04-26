@@ -2,6 +2,7 @@ import { createGame } from "../../../lib/Game";
 import Player from "../../../lib/Player";
 import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
 import { checkFields } from "../../../lib/checkFields";
+import { state } from "../../../lib/GamesManager";
 
 // Al ir a http://localhost:3000/api/quick_game/create_room te devuelve el siguiente json
 export default async (req, res) => {
@@ -34,7 +35,14 @@ export default async (req, res) => {
 				"#" +
 				Date.now().toString(36).substr(12, 4) +
 				Math.random().toString(36).substr(2, 5);
-			createGame(id, p, message.time, message.isPrivate, message.mode);
+			createGame(
+				id,
+				p,
+				message.time,
+				message.isPrivate,
+				message.mode,
+				state.LOBBY
+			);
 			res.status(200).json({ result: "success", id: id });
 		} else {
 			res.status(200).json({ result: "error", reason: "wrong_password" });
