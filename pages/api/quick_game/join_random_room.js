@@ -39,7 +39,7 @@ export default async (req, res) => {
 			} else {
 				const id = gamesList[0].id;
 				if (addPlayerGame(id, p)) {
-					res.status(200).json({ result: "success" });
+					res.status(200).json({ result: "success", id: id });
 				} else {
 					res.status(200).json({
 						result: "error",
