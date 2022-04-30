@@ -10,11 +10,7 @@ export async function selectStoriesDB(username) {
                 select: {
                     story_id: true,
                     date: true,
-                    tale: {
-                        select: {
-                            title: true,
-                        },
-                    },
+                    tale: true,
                     quick_match: {
                         select: {
                             mode: true,
