@@ -32,7 +32,7 @@ export default async (req, res) => {
 			await updateParticipantDB(message.username, message.id, paraOwner.username);
 
 			await updateParagraphDB(message.id, message.indexParagraph);
-			if (participants.length == voted.length){
+			if (participants.length == voted.length+1){
 				const tale = await selectTaleDB(message.id);
 				tale.scored = true;
 				await updateTaleDB(message.id,tale);
