@@ -50,7 +50,7 @@ export default async (req, res) => {
 			};
 
 			await createParagraphDB(dataParagraph);
-
+			const noVoting = tale.turn==0
 			if (message.isLast) {
 				const dataTale = {
 					story_id: tale.story_id,
@@ -60,6 +60,7 @@ export default async (req, res) => {
 					privacy: tale.privacy,
 					title: tale.title,
 					finished: true,
+					scored: noVoting
 				};
 				await updateTaleDB(message.id, dataTale);
 			} else {
