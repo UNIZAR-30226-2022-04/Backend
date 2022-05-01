@@ -35,12 +35,12 @@ export default async (req, res) => {
 
 			await updateParagraphDB(message.id, message.indexParagraph);
 			console.log(participants,'\n',voted,'\n',paragraphs,'aaaaaa\n',paraOwner)
-			if (participants.length == voted.length+1){
+			if (participants.length <= voted.length+1){
 				console.log('eeeeeeeeeeeeeeeeeee')
 				const tale = await selectTaleDB(message.id);
 				tale.scored = true;
 				await updateTaleDB(message.id,tale);
-				givePoints(paragraphs,tale.privacy);
+				await givePoints(paragraphs,tale.privacy);
 			}
 			res.status(200).json({
 				result: "success",
