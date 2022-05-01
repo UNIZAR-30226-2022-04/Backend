@@ -28,11 +28,13 @@ export default async (req, res) => {
 			const participants = await selectParticipantsDB(message.id);
 			const voted = participants.filter((p) => (p.voted != undefined));
 			const paraOwner = paragraphs[message.indexParagraph];
+			paragraphs[message.indexParagraph].Score += 1
 
 			await updateParticipantDB(message.username, message.id, paraOwner.username);
 
 			await updateParagraphDB(message.id, message.indexParagraph);
-			if (participants.length == voted.length+1){
+			if (participants.length == voted.length){
+				console.log(participants,'\n',voted,'\n',paragraphs)
 				const tale = await selectTaleDB(message.id);
 				tale.scored = true;
 				await updateTaleDB(message.id,tale);

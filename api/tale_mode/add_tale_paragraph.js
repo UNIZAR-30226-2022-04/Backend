@@ -60,6 +60,7 @@ export default async (req, res) => {
 					privacy: tale.privacy,
 					title: tale.title,
 					finished: true,
+					scored: (tale.turn==1)
 				};
 				await updateTaleDB(message.id, dataTale);
 			} else {
