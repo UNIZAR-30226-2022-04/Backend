@@ -1,14 +1,13 @@
-import { createGame } from "../../../lib/Game";
+import { addPlayerGame, createGame, findGame } from "../../../lib/Game";
 import Player from "../../../lib/Player";
 import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
 import { checkFields } from "../../../lib/checkFields";
-import { state } from "../../../lib/GamesManager";
 
-// Al ir a http://localhost:3000/api/quick_game/create_room te devuelve el siguiente json
+// Al ir a http://localhost:3000/api/quick_game/play_quick_game te devuelve el siguiente json
 export default async (req, res) => {
 	const message = req.body;
 
-	const fields = ["username", "password", "time", "isPrivate", "mode"];
+	const fields = ["username", "password", "id"];
 
 	if (!checkFields(message, fields)) {
 		res.status(200).json({
@@ -23,28 +22,26 @@ export default async (req, res) => {
 	// checks if username exists
 	if (user != undefined) {
 		if (user.password_hash == message.password) {
-			const p = new Player(
-				message.username,
-				message.password,
-				user.image_ID,
-				user.stars,
-				user.mooncoins
-			);
+			const game = findGame(message.id);
 
-			var id =
-				"#" +
-				Date.now().toString(36).substr(12, 4) +
-				Math.random().toString(36).substr(2, 5);
-			createGame(
-				id,
-				p,
-				message.time,
-				message.isPrivate,
-				message.mode,
-				state.LOBBY,
-				message.time
-			);
-			res.status(200).json({ result: "success", id: id });
+			if (game == undefined) {
+				res.status(200).json({
+					result: "error",
+					reason: "room_not_found",
+				});
+			}
+
+			const result = game.state == 0 ? "waiting_players" : "success";
+
+			res.status(200).json({
+				result: result,
+				s: game.maxTime,
+				topic: game.topic,
+				randomWords: game.randomWords,
+				lastParagraph: "",
+				isLast: game.turn == game.players.length - 1,
+				puneta: "",
+			});
 		} else {
 			res.status(200).json({ result: "error", reason: "wrong_password" });
 		}
