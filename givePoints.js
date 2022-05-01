@@ -1,7 +1,6 @@
 import { selectPlayerDB } from "../prisma/queries/SELECT/player";
 import { updatePlayerDB } from "../prisma/queries/PUT/player";
 
-
 export async function givePoints(paragraphs,privacy){
     var multiplier = 25;
     if (privacy) multiplier = 10;
