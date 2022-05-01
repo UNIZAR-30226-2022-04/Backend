@@ -83,7 +83,7 @@ model Quick_match {
 
 model Paragraph {
   text        String @db.VarChar(250)
-  Score       Float  @default(0)
+  Score       Int  @default(0)
   turn_number Int    @default(0)
   contributor Player @relation(name: "contributor", fields: [username], references: [username], onDelete: Cascade)
   username    String @db.VarChar(30)
