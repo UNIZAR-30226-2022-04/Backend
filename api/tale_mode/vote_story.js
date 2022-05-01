@@ -26,15 +26,17 @@ export default async (req, res) => {
 		if (user.password_hash == message.password) {
 			const paragraphs = await selectParagraphsDB(message.id);
 			const participants = await selectParticipantsDB(message.id);
-			const voted = participants.filter((p) => (p.voted != undefined));
+			console.log(participants,'\n')
+			const voted = participants.filter((p) => (p.voted != ''));
 			const paraOwner = paragraphs[message.indexParagraph];
 			paragraphs[message.indexParagraph].Score += 1
 
 			await updateParticipantDB(message.username, message.id, paraOwner.username);
 
 			await updateParagraphDB(message.id, message.indexParagraph);
-			if (participants.length == voted.length){
-				console.log(participants,'\n',voted,'\n',paragraphs)
+			console.log(participants,'\n',voted,'\n',paragraphs,'aaaaaa\n',paraOwner)
+			if (participants.length == voted.length+1){
+				console.log('eeeeeeeeeeeeeeeeeee')
 				const tale = await selectTaleDB(message.id);
 				tale.scored = true;
 				await updateTaleDB(message.id,tale);
