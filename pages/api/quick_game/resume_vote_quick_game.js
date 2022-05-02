@@ -1,9 +1,8 @@
-import { addPlayerGame, createGame, findGame } from "../../../lib/Game";
-import Player from "../../../lib/Player";
 import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
 import { checkFields } from "../../../lib/checkFields";
+import { findGame } from "../../../lib/Game";
 
-// Al ir a http://localhost:3000/api/quick_game/play_quick_game te devuelve el siguiente json
+// Al ir a http://localhost:3000/api/quick_game/get_room te devuelve el siguiente json
 export default async (req, res) => {
 	const message = req.body;
 
@@ -31,17 +30,19 @@ export default async (req, res) => {
 				});
 				return;
 			}
-
 			const result = game.state == 0 ? "waiting_players" : "success";
+			const paragraphs = [];
+			game.paragraphs.forEach((paragraph) => {
+				var paraInfo;
+				paraInfo.body = paragraph.body;
+				paraInfo.randomWords = game.randomWords;
+				paragraphs.push(paragraph);
+			});
 
 			res.status(200).json({
 				result: result,
-				s: game.maxTime,
 				topic: game.topic,
-				randomWords: game.randomWords,
-				lastParagraph: "",
-				isLast: game.turn == game.players.length - 1,
-				puneta: "",
+				paragraphs: paragraphs,
 			});
 		} else {
 			res.status(200).json({ result: "error", reason: "wrong_password" });
