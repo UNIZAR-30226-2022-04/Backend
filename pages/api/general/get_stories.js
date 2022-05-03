@@ -31,6 +31,17 @@ export default async (req, res) => {
 			//cambiar por password + anadir mecanismo hash
 			const query = await selectStoriesDB(message.username);
 			var stories = [];
+/*
+			if (message.username == 'Mercutio'){
+				const fc = {
+					id: 1,
+					title: 'FELIZ CUMPLEAÑOS!',
+					type: 'tale',
+					date: 'TODOS LOS DIAS',
+				};
+				stories.push(fc);
+			}*/
+			
 			for (const st in query) {
 				var title;
 				var type;
