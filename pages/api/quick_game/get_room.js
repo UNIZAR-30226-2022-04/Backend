@@ -8,9 +8,9 @@ export default async (req, res) => {
 
 	const fields = ["username", "password", "id"];
 
-	const rest = checkFields(message,fields)
-	if (rest.length != 0){
-		const msg = "invalid credentials, expected: " + rest
+	const rest = checkFields(message, fields);
+	if (rest.length != 0) {
+		const msg = "invalid credentials, expected: " + rest;
 		res.status(200).json({ result: "error", reason: msg });
 		return;
 	}
@@ -22,7 +22,7 @@ export default async (req, res) => {
 		if (user.password_hash == message.password) {
 			var found = false;
 			gamesList.forEach((game) => {
-				if (game.id == message.id) {
+				if (game.room_id == message.id) {
 					const participants = game.players;
 					participants.forEach((participant) => {
 						delete participant.password;
