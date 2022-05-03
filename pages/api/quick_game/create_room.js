@@ -10,9 +10,9 @@ export default async (req, res) => {
 
 	const fields = ["username", "password", "time", "isPrivate", "mode"];
 
-	const rest = checkFields(message,fields)
-	if (rest.length != 0){
-		const msg = "invalid credentials, expected: " + rest
+	const rest = checkFields(message, fields);
+	if (rest.length != 0) {
+		const msg = "invalid credentials, expected: " + rest;
 		res.status(200).json({ result: "error", reason: msg });
 		return;
 	}
@@ -34,7 +34,7 @@ export default async (req, res) => {
 				"#" +
 				Date.now().toString(36).substr(12, 4) +
 				Math.random().toString(36).substr(2, 5);
-			createGame(
+			await createGame(
 				id,
 				p,
 				message.time,
