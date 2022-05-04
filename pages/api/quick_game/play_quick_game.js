@@ -30,12 +30,19 @@ export default async (req, res) => {
 				});
 				return;
 			}
+			const result = (game.players.length == game.haveFinished ||
+				game.turn == 0) ? "success" : "waiting_players";
+			/*const result = (game.players.length == game.haveFinished ||
+				game.turn == 0 || game.timeRemaining == 0) ? "success" : "waiting_players";
 
-			const result = game.state == 0 ? "waiting_players" : "success";
+			if (game.players.length == game.haveFinished || game.turn == 0){
+				startTurn(game.room_id);
+			}*/
 
 			res.status(200).json({
 				result: result,
 				s: game.maxTime,
+				//s: game.timeRemaining,
 				topic: game.topic,
 				randomWords: game.randomWords,
 				lastParagraph: "",
