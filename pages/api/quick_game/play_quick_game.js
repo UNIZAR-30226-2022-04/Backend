@@ -30,14 +30,15 @@ export default async (req, res) => {
 				});
 				return;
 			}
-			const result = (game.players.length == game.haveFinished ||
-				game.turn == 0) ? "success" : "waiting_players";
-			/*const result = (game.players.length == game.haveFinished ||
-				game.turn == 0 || game.timeRemaining == 0) ? "success" : "waiting_players";
 
-			if (game.players.length == game.haveFinished || game.turn == 0){
-				startTurn(game.room_id);
-			}*/
+			if (game.turn == 0) game.nextTurn;
+
+			const result = (game.players.length == game.haveFinished ||
+				game.turn == 1) ? "success" : "waiting_players";
+
+			const lastParagraph = "";
+
+			if (result == "success" && game.turn != 1) lastParagraph = game.getLastParagraph(message.username)
 
 			res.status(200).json({
 				result: result,
@@ -45,8 +46,8 @@ export default async (req, res) => {
 				//s: game.timeRemaining,
 				topic: game.topic,
 				randomWords: game.randomWords,
-				lastParagraph: "",
-				isLast: game.turn == game.players.length - 1,
+				lastParagraph: lastParagraph,
+				isLast: game.turn == game.players.length,
 				puneta: "",
 			});
 		} else {
