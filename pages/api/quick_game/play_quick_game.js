@@ -9,9 +9,9 @@ export default async (req, res) => {
 
 	const fields = ["username", "password", "id"];
 
-	const rest = checkFields(message,fields)
-	if (rest.length != 0){
-		const msg = "invalid credentials, expected: " + rest
+	const rest = checkFields(message, fields);
+	if (rest.length != 0) {
+		const msg = "invalid credentials, expected: " + rest;
 		res.status(200).json({ result: "error", reason: msg });
 		return;
 	}
@@ -33,12 +33,15 @@ export default async (req, res) => {
 
 			if (game.turn == 0) game.nextTurn;
 
-			const result = (game.players.length == game.haveFinished ||
-				game.turn == 1) ? "success" : "waiting_players";
+			const result =
+				game.players.length == game.haveFinished || game.turn == 1
+					? "success"
+					: "waiting_players";
 
-			const lastParagraph = "";
+			var lastParagraph = "";
 
-			if (result == "success" && game.turn != 1) lastParagraph = game.getLastParagraph(message.username)
+			if (result == "success" && game.turn != 1)
+				lastParagraph = game.getLastParagraph(message.username);
 
 			res.status(200).json({
 				result: result,
