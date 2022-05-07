@@ -4,6 +4,7 @@ import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
 import { checkFields } from "../../../lib/checkFields";
 import { gamesList } from "../../../lib/GamesManager";
 import { MAX_AMOUNT_PLAYERS } from "../../../lib/GamesManager";
+import { state } from "../../../lib/GamesManager";
 
 // Al ir a http://localhost:3000/api/quick_game/join_room te devuelve el siguiente json
 export default async (req, res) => {
