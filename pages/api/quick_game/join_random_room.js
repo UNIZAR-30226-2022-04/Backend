@@ -24,38 +24,33 @@ export default async (req, res) => {
 	// checks if username exists
 	if (user != undefined) {
 		if (user.password_hash == message.password) {
-			const p = new Player(
-				message.username,
-				message.password,
-				user.image_ID,
-				user.stars,
-				user.mooncoins
-			);
-
 			if (gamesList.length == 0) {
 				res.status(200).json({
 					result: "error",
 					reason: "no_rooms_available",
 				});
 			} else {
+				const p = new Player(
+					message.username,
+					message.password,
+					user.image_ID,
+					user.stars,
+					user.mooncoins
+				);
+
 				var found = false;
-				for (var i = 0; !found && i < gamesList.lenght; i++) {
-					const game = gamesList[i];
+				var game;
+				for (var i = 0; found == false && i < gamesList.length; i++) {
+					game = gamesList[i];
 					if (game.players.lenght >= MAX_AMOUNT_PLAYERS) {
 					} else if (addPlayerGame(game.room_id, p)) {
 						found = true;
-					} else if (game.state == state.LOBBY) {
-						res.status(200).json({
-							result: "error",
-							reason: "player_in_game",
-						});
-						return;
 					}
 				}
 				if (found) {
 					res.status(200).json({
 						result: "success",
-						id: gamesList[i].room_id,
+						id: game.room_id,
 					});
 				} else {
 					res.status(200).json({
