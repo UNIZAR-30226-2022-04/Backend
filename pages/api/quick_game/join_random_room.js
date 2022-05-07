@@ -39,7 +39,7 @@ export default async (req, res) => {
 				});
 			} else {
 				var found = false;
-				for( i=0 ; !found && i < gamesList.lenght ; i++){
+				for(var i=0 ; !found && i < gamesList.lenght ; i++){
 					const game = gamesList[i];
 					if (game.players.lenght >= MAX_AMOUNT_PLAYERS){
 					} else if (addPlayerGame(game.room_id, p)) {
