@@ -29,12 +29,12 @@ export default async (req, res) => {
 	// checks if username exists
 	if (user != undefined) {
 		if (user.password_hash == message.password) {
-			const paragraph = new Paragraph(message.turn, message.body);
+			const paragraph = new Paragraph(message.username, message.turn, message.body);
 			const game = gamesList.find((game) => game.room_id == message.id);
 			const player = game.players.find(
 				(p) => p.username == message.username
 			);
-			player.addParagraph(paragraph);
+			game.addParagraph(player,paragraph);
 
 			//if (message.isLast) {
 			//

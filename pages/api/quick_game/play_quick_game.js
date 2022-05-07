@@ -31,7 +31,7 @@ export default async (req, res) => {
 				return;
 			}
 
-			if (game.turn == 0) game.nextTurn;
+			if (game.turn == 0) game.nextTurn();
 
 			const result =
 				game.players.length == game.haveFinished || game.turn == 1
