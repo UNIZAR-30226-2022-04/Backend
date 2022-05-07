@@ -12,9 +12,9 @@ export default async (req, res) => {
 
 	const fields = ["username", "password", "id"];
 
-	const rest = checkFields(message,fields)
-	if (rest.length != 0){
-		const msg = "invalid credentials, expected: " + rest
+	const rest = checkFields(message, fields);
+	if (rest.length != 0) {
+		const msg = "invalid credentials, expected: " + rest;
 		res.status(200).json({ result: "error", reason: msg });
 		return;
 	}
@@ -38,7 +38,7 @@ export default async (req, res) => {
 					result: "error",
 					reason: "room_not_found",
 				});
-			} else if (game.players.lenght >= MAX_AMOUNT_PLAYERS){
+			} else if (game.players.lenght >= MAX_AMOUNT_PLAYERS) {
 				res.status(200).json({
 					result: "error",
 					reason: "game_full",
