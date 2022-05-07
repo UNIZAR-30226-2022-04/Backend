@@ -8,9 +8,9 @@ export default async (req, res) => {
 
 	const fields = ["username", "password", "id"];
 
-	const rest = checkFields(message,fields)
-	if (rest.length != 0){
-		const msg = "invalid credentials, expected: " + rest
+	const rest = checkFields(message, fields);
+	if (rest.length != 0) {
+		const msg = "invalid credentials, expected: " + rest;
 		res.status(200).json({ result: "error", reason: msg });
 		return;
 	}
@@ -31,11 +31,13 @@ export default async (req, res) => {
 			}
 			const result = game.state == 0 ? "waiting_players" : "success";
 			const paragraphs = [];
-			game.paragraphs.forEach((paragraph) => {
-				var paraInfo;
-				paraInfo.body = paragraph.body;
-				paraInfo.randomWords = game.randomWords;
-				paragraphs.push(paragraph);
+			game.players.forEach((player) => {
+				player.paragraphs.forEach((paragraph) => {
+					var paraInfo;
+					paraInfo.body = paragraph.body;
+					paraInfo.randomWords = game.randomWords;
+					paragraphs.push(paraInfo);
+				});
 			});
 
 			res.status(200).json({
