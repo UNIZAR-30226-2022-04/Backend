@@ -1,8 +1,9 @@
+import { addPlayerGame, createGame, findGame } from "../../../lib/Game";
+import Player from "../../../lib/Player";
 import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
 import { checkFields } from "../../../lib/checkFields";
-import { gamesList } from "../../../lib/GamesManager";
 
-// Al ir a http://localhost:3000/api/quick_game/get_room te devuelve el siguiente json
+// Al ir a http://localhost:3000/api/quick_game/play_quick_game te devuelve el siguiente json
 export default async (req, res) => {
 	const message = req.body;
 
@@ -20,32 +21,38 @@ export default async (req, res) => {
 	// checks if username exists
 	if (user != undefined) {
 		if (user.password_hash == message.password) {
-			var found = false;
-			gamesList.forEach((game) => {
-				if (game.room_id == message.id) {
-					const participants = game.players;
-					participants.forEach((participant) => {
-						delete participant.password;
-						delete participant.mooncoins;
-					});
-					const mode = game.mode;
-					const hasStarted = game.hasStarted;
-					res.status(200).json({
-						result: "success",
-						mode: mode,
-						participants: participants,
-						hasStarted: hasStarted,
-					});
-					found = true;
-					return;
-				}
-			});
-			if (!found) {
+			const game = findGame(message.id);
+
+			if (game == undefined) {
 				res.status(200).json({
 					result: "error",
 					reason: "room_not_found",
 				});
+				return;
 			}
+
+			if (game.turn == 0) game.nextTurn();
+
+			const result =
+				game.players.length == game.haveFinished || game.turn == 1
+					? "success"
+					: "waiting_players";
+
+			var lastParagraph = "";
+
+			if (result == "success" && game.turn != 1)
+				lastParagraph = game.getLastParagraph(message.username);
+
+			res.status(200).json({
+				result: result,
+				s: game.maxTime,
+				//s: game.timeRemaining,
+				topic: game.topic,
+				randomWords: game.randomWords,
+				lastParagraph: lastParagraph,
+				isLast: game.turn == game.players.length,
+				puneta: "",
+			});
 		} else {
 			res.status(200).json({ result: "error", reason: "wrong_password" });
 		}

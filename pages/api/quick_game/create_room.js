@@ -10,11 +10,10 @@ export default async (req, res) => {
 
 	const fields = ["username", "password", "time", "isPrivate", "mode"];
 
-	if (!checkFields(message, fields)) {
-		res.status(200).json({
-			result: "error",
-			reason: "invalid credentials",
-		});
+	const rest = checkFields(message, fields);
+	if (rest.length != 0) {
+		const msg = "invalid credentials, expected: " + rest;
+		res.status(200).json({ result: "error", reason: msg });
 		return;
 	}
 
@@ -35,15 +34,20 @@ export default async (req, res) => {
 				"#" +
 				Date.now().toString(36).substr(12, 4) +
 				Math.random().toString(36).substr(2, 5);
-			createGame(
+			if (await createGame(
 				id,
 				p,
 				message.time,
 				message.isPrivate,
 				message.mode,
-				state.LOBBY
-			);
-			res.status(200).json({ result: "success", id: id });
+				state.LOBBY,
+				message.time
+			) == true){
+				res.status(200).json({ result: "success", id: id });
+			} else {
+				res.status(200).json({ result: "error", reason: "player_in_game" });
+			}
+			
 		} else {
 			res.status(200).json({ result: "error", reason: "wrong_password" });
 		}

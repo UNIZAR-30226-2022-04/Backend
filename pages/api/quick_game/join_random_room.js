@@ -3,6 +3,8 @@ import Player from "../../../lib/Player";
 import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
 import { checkFields } from "../../../lib/checkFields";
 import { gamesList } from "../../../lib/GamesManager";
+import { MAX_AMOUNT_PLAYERS } from "../../../lib/GamesManager";
+import { state } from "../../../lib/GamesManager";
 
 // Al ir a http://localhost:3000/api/quick_game/join_room te devuelve el siguiente json
 export default async (req, res) => {
@@ -10,11 +12,10 @@ export default async (req, res) => {
 
 	const fields = ["username", "password"];
 
-	if (!checkFields(message, fields)) {
-		res.status(200).json({
-			result: "error",
-			reason: "invalid credentials",
-		});
+	const rest = checkFields(message, fields);
+	if (rest.length != 0) {
+		const msg = "invalid credentials, expected: " + rest;
+		res.status(200).json({ result: "error", reason: msg });
 		return;
 	}
 
@@ -31,19 +32,35 @@ export default async (req, res) => {
 				user.mooncoins
 			);
 
-			if (gamesList[0] == undefined) {
+			if (gamesList.length == 0) {
 				res.status(200).json({
 					result: "error",
 					reason: "no_rooms_available",
 				});
 			} else {
-				const id = gamesList[0].id;
-				if (addPlayerGame(id, p)) {
-					res.status(200).json({ result: "success", id: id });
+				var found = false;
+				for(var i=0 ; !found && i < gamesList.lenght ; i++){
+					const game = gamesList[i];
+					if (game.players.lenght >= MAX_AMOUNT_PLAYERS){
+					} else if (addPlayerGame(game.room_id, p)) {
+						found = true;
+					} else if (game.state == state.LOBBY) {
+						res.status(200).json({
+							result: "error",
+							reason: "player_in_game",
+						});
+						return;
+					}
+				}
+				if (found){
+					res.status(200).json({
+						result: "success",
+						id: gamesList[i].room_id,
+					});
 				} else {
 					res.status(200).json({
 						result: "error",
-						reason: "player_in_game",
+						reason: "no_rooms_available",
 					});
 				}
 			}
