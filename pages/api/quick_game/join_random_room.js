@@ -39,16 +39,12 @@ export default async (req, res) => {
 				});
 			} else {
 				var found = false;
-				var i = 0;
-				while(!found){
+				for( i=0 ; !found && i < gamesList.lenght ; i++){
 					const game = gamesList[i];
 					if (game.players.lenght >= MAX_AMOUNT_PLAYERS){
-						i++;
 					} else if (addPlayerGame(game.room_id, p)) {
 						found = true;
-					} else if (game.state != state.LOBBY) {
-						i++;
-					} else {
+					} else if (game.state == state.LOBBY) {
 						res.status(200).json({
 							result: "error",
 							reason: "player_in_game",
