@@ -13,7 +13,6 @@ export default async (req, res) => {
 		"id",
 		"body",
 		"turn",
-		"isLast",
 		"punetas",
 	];
 
