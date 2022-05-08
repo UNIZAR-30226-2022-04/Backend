@@ -37,7 +37,18 @@ export default async (req, res) => {
 					user.stars,
 					user.mooncoins
 				);
-
+				const oldGame = gamesList.find(
+					(game) =>
+						game.players.find((player) => player.username == p.username) !=
+						undefined
+				);
+				if (oldGame != undefined){
+					res.status(200).json({
+						result: "success",
+						id: oldGame.room_id,
+					});
+					return
+				}
 				var found = false;
 				var game;
 				for (var i = 0; found == false && i < gamesList.length; i++) {

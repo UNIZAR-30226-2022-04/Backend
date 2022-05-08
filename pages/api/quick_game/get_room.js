@@ -29,7 +29,7 @@ export default async (req, res) => {
 						delete participant.mooncoins;
 					});
 					const mode = game.mode;
-					const hasStarted = game.hasStarted;
+					const hasStarted = game.state;
 					res.status(200).json({
 						result: "success",
 						mode: mode,

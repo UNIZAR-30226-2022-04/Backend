@@ -34,9 +34,10 @@ export default async (req, res) => {
 			if (game.turn == 0) game.nextTurn();
 
 			const result =
-				game.players.length == game.haveFinished || game.turn == 1
+				message.turn <= game.turn
 					? "success"
 					: "waiting_players";
+
 
 			var lastParagraph = "";
 
@@ -52,6 +53,7 @@ export default async (req, res) => {
 				lastParagraph: lastParagraph,
 				isLast: game.turn == game.players.length,
 				puneta: "",
+				turn: game.turn
 			});
 		} else {
 			res.status(200).json({ result: "error", reason: "wrong_password" });
