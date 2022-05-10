@@ -37,13 +37,8 @@ export default async (req, res) => {
 			const player = game.players.find(
 				(p) => p.username == message.username
 			);
+			await game.addPunetas(message.username,message.punetas)
 			game.addParagraph(player, paragraph);
-
-			//if (message.isLast) {
-			//
-			//} else {
-			//
-			//}
 
 			res.status(200).json({ result: "success" });
 		} else {

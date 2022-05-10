@@ -40,9 +40,12 @@ export default async (req, res) => {
 
 
 			var lastParagraph = "";
+			var puneta = "";
 
-			if (result == "success" && game.turn != 1)
+			if (result == "success" && game.turn != 1){
 				lastParagraph = game.getLastParagraph(message.username);
+				puneta = game.getPuneta(message.username)
+			}
 
 			res.status(200).json({
 				result: result,
@@ -52,7 +55,7 @@ export default async (req, res) => {
 				randomWords: game.randomWords,
 				lastParagraph: lastParagraph,
 				isLast: game.turn == game.players.length,
-				puneta: "",
+				puneta: puneta,
 				turn: game.turn
 			});
 		} else {

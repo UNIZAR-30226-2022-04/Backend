@@ -31,19 +31,16 @@ export default async (req, res) => {
 			}
 			const result = game.state == 0 ? "waiting_players" : "success";
 			const paragraphs = [];
-			const player = game.players.find((p) => p.username == message.username);
 
-			game.players[player.votedTo].paragraphs.forEach((paragraph) => {
+			game.players[game.voteTurn-1].paragraphs.forEach((paragraph) => {
 				paragraphs.push({ body: paragraph.body, randomWords: game.randomWords });
 			});
-
-			player.votedTo++
 
 			res.status(200).json({
 				result: result,
 				topic: game.topic,
 				paragraphs: paragraphs,
-				turn: game.turn,
+				turn: game.voteTurn,
 				s: game.maxTime
 			});
 		} else {
