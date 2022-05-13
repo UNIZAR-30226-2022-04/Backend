@@ -50,7 +50,8 @@ export default async (req, res) => {
 				});
 			} else {
 				res.status(200).json({
-					result: result
+					result: result,
+					turn: game.voteTurn
 				});
 			}
 		} else {
