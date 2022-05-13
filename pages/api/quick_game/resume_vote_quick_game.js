@@ -29,7 +29,10 @@ export default async (req, res) => {
 				});
 				return;
 			}
-			const result = game.state == 0 ? "waiting_players" : "success";
+			const result =
+			message.turn <= game.voteTurn
+				? "success"
+				: "waiting_players";
 			const paragraphs = [];
 
 			game.players[game.voteTurn-1].paragraphs.forEach((paragraph) => {
