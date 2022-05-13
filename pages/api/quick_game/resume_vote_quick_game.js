@@ -33,19 +33,26 @@ export default async (req, res) => {
 			message.turn <= game.voteTurn
 				? "success"
 				: "waiting_players";
-			const paragraphs = [];
 
-			game.players[game.voteTurn-1].paragraphs.forEach((paragraph) => {
-				paragraphs.push({ body: paragraph.body, randomWords: game.randomWords });
-			});
+			if (result == "success"){
+				const paragraphs = [];
 
-			res.status(200).json({
-				result: result,
-				topic: game.topic,
-				paragraphs: paragraphs,
-				turn: game.voteTurn,
-				s: game.maxTime
-			});
+				game.players[game.voteTurn-1].paragraphs.forEach((paragraph) => {
+					paragraphs.push({ body: paragraph.body, randomWords: game.randomWords });
+				});
+
+				res.status(200).json({
+					result: result,
+					topic: game.topic,
+					paragraphs: paragraphs,
+					turn: game.voteTurn,
+					s: game.maxTime
+				});
+			} else {
+				res.status(200).json({
+					result: result
+				});
+			}
 		} else {
 			res.status(200).json({ result: "error", reason: "wrong_password" });
 		}
