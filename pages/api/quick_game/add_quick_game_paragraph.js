@@ -34,6 +34,15 @@ export default async (req, res) => {
 				message.body
 			);
 			const game = gamesList.find((game) => game.room_id == message.id);
+
+			if (game == undefined) {
+				res.status(200).json({
+					result: "error",
+					reason: "room_not_found",
+				});
+				return;
+			}
+
 			const player = game.players.find(
 				(p) => p.username == message.username
 			);

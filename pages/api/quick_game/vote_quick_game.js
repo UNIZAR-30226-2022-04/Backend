@@ -6,7 +6,7 @@ import { findGame } from "../../../lib/Game";
 export default async (req, res) => {
 	const message = req.body;
 
-	const fields = ["username", "password", "id"];
+	const fields = ["username", "password", "id","paragraph"];
 
 	const rest = checkFields(message, fields);
 	if (rest.length != 0) {
@@ -29,34 +29,16 @@ export default async (req, res) => {
 				});
 				return;
 			}
-			const pl = game.players.find((p) => p.username == message.username);
-			const result =
-			(message.turn <= game.voteTurn && pl.votedTo == "")
-				? "success"
-				: "waiting_players";
 
-			if (result == "waiting_players"){
-				res.status(200).json({
-					result: result,
-					turn: game.voteTurn
-				});
-				return;
-			}
+            await game.vote(message.username,message.paragraph);
 
-			const paragraphs = [];
+            if (game.voted == game.players.length) {
+                await game.saveStory();
+                game.nextTurn();
+            }
 
-			game.players[game.voteTurn-1].paragraphs.forEach((paragraph) => {
-				paragraphs.push({ body: paragraph.body, randomWords: game.randomWords });
-			});
-
-			res.status(200).json({
-				result: result,
-				topic: game.topic,
-				paragraphs: paragraphs,
-				isLast: game.voteTurn == game.players.length,
-				turn: game.voteTurn,
-				s: game.maxTime
-			});
+            res.status(200).json({result: "success",});
+			
 		} else {
 			res.status(200).json({ result: "error", reason: "wrong_password" });
 		}

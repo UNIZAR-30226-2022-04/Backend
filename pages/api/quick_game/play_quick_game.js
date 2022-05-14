@@ -33,8 +33,10 @@ export default async (req, res) => {
 
 			if (game.turn == 0) game.nextTurn();
 
+			const pl = game.players.find((p) => p.username == message.username);
+
 			const result =
-				message.turn <= game.turn
+				(message.turn <= game.turn && pl.wrote == false)
 					? "success"
 					: "waiting_players";
 
