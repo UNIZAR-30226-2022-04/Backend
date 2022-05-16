@@ -12,6 +12,7 @@ model Player {
   password_hash String        @db.VarChar(30)
   email         String        @unique @db.VarChar(40)
   image_ID      Int           @default(0)
+  salt          String        @default("")
   mooncoins     Int           @default(100)
   stars         Int           @default(0)
   friend        Friendship[]  @relation("friend")
