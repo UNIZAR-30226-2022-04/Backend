@@ -32,7 +32,7 @@ export default async (req, res) => {
 			}
 			const pl = game.players.find((p) => p.username == message.username);
 			const result =
-			(game.state == state.END)
+			(message.turn <= game.voteTurn && game.reviewing)
 				? "success"
 				: "waiting_players";
 
@@ -43,14 +43,14 @@ export default async (req, res) => {
 				return;
 			}
 
-			const players = game.getRanking();
+			const paragraphs = game.getRanking();
+
+			const idx = game.getWinnerIndex();
 
 			res.status(200).json({
 				result: result,
-				topic: game.topic,
 				paragraphs: paragraphs,
-				isLast: game.voteTurn == game.players.length,
-				turn: game.voteTurn,
+				winner: idx,
 				s: game.maxTime
 			});
 		} else {

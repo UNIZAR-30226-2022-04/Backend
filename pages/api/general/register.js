@@ -8,7 +8,7 @@ import {checkFields} from "../../../lib/checkFields";
 export default async (req, res) => {
 	const message = req.body;
 	
-	const fields = ['username','password','email'];
+	const fields = ['username','password','email','salt'];
 
 	const rest = checkFields(message,fields)
 	if (rest.length != 0){
