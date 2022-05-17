@@ -4,7 +4,6 @@ import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
 import {checkFields} from "../../../lib/checkFields";
 //import CryptoJS from "crypto-js"
 
-// Al ir a http://localhost:3000/api/register te devuelve el siguiente json
 export default async (req, res) => {
 	const message = req.body;
 	
