@@ -38,6 +38,7 @@ export default async (req, res) => {
 					result: "error",
 					reason: "room_not_found",
 				});
+				return;
 			} else if (game.players.lenght >= MAX_AMOUNT_PLAYERS) {
 				res.status(200).json({
 					result: "error",

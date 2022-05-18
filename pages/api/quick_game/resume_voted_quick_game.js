@@ -28,6 +28,7 @@ export default async (req, res) => {
 					result: "error",
 					reason: "room_not_found",
 				});
+				return;
 			}
 			const result =
 			(message.turn <= game.voteTurn && game.reviewing)

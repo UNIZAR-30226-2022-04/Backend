@@ -33,7 +33,7 @@ export default async (req, res) => {
 					game.players.find((player) => player.username == p.username) !=
 					undefined
 			);
-			if (oldGame!=undefined) checkEmpty(oldGame.id);
+			if (oldGame!=undefined) checkEmpty(oldGame.room_id);
 			var id =
 				"#" +
 				Date.now().toString(36).substr(12, 4) +
