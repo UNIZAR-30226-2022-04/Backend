@@ -30,7 +30,7 @@ export default async (req, res) => {
 				user.mooncoins
 			);
 
-			checkEmpty(message.id);
+			await checkEmpty(message.id);
 
 			const game = findGame(message.id);
 			if (game == undefined) {

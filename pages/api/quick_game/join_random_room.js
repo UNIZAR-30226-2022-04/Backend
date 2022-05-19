@@ -40,7 +40,7 @@ export default async (req, res) => {
 						game.players.find((player) => player.username == p.username) !=
 						undefined
 				);
-				if (oldGame != undefined) checkEmpty(oldGame.id);
+				if (oldGame != undefined) await checkEmpty(oldGame.id);
 				oldGame = findGame(oldGame.id);
 				if (oldGame != undefined){
 					res.status(200).json({
