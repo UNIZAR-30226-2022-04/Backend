@@ -49,7 +49,7 @@ export default async (req, res) => {
 			const paragraphs = [];
 
 			game.players[game.voteTurn-1].paragraphs.forEach((paragraph) => {
-				paragraphs.push({ body: paragraph.body, randomWords: game.randomWords });
+				paragraphs.push({ body: paragraph.body, words: game.randomWords });
 			});
 
 			res.status(200).json({
