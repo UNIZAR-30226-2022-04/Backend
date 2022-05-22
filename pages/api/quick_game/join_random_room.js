@@ -38,27 +38,31 @@ export default async (req, res) => {
 				);
 				var oldGame = gamesList.find(
 					(game) =>
-						game.players.find((player) => player.username == p.username) !=
-						undefined
+						game.players.find(
+							(player) => player.username == p.username
+						) != undefined
 				);
 				if (oldGame != undefined) {
 					await checkEmpty(oldGame.room_id);
 					oldGame = findGame(oldGame.room_id);
 				}
-				if (oldGame != undefined){
+				if (oldGame != undefined) {
 					res.status(200).json({
 						result: "success",
 						id: oldGame.room_id,
 					});
-					return
+					return;
 				}
 				var found = false;
 				var game;
 				const friends = await selectFriendnames(message.username);
 				for (var i = 0; found == false && i < gamesList.length; i++) {
 					game = gamesList[i];
-					if (game.players.lenght < MAX_AMOUNT_PLAYERS &&
-						(!game.isPrivate || friends.includes(game.host.username))) {
+					if (
+						game.players.length < MAX_AMOUNT_PLAYERS &&
+						(!game.isPrivate ||
+							friends.includes(game.host.username))
+					) {
 						if (addPlayerGame(game.room_id, p)) {
 							found = true;
 						}
