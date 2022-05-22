@@ -56,10 +56,13 @@ export default async (req, res) => {
 					type = "tale";
 				}
 				if (store) {
+					var auxDate = query[st].story.date;
+					auxDate.setMonth(auxDate.getUTCMonth() + 1);
+					auxDate.setDate(auxDate.getUTCDate() + 1);
 					const [month, day, year] = [
-						query[st].story.date.getUTCMonth(),
-						query[st].story.date.getUTCDate(),
-						query[st].story.date.getUTCFullYear(),
+						auxDate.getUTCMonth(),
+						auxDate.getUTCDate(),
+						auxDate.getUTCFullYear(),
 					];
 
 					const story = {

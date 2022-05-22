@@ -3,6 +3,7 @@ import Player from "../../../lib/Player";
 import { selectPlayerDB } from "../../../prisma/queries/SELECT/player";
 import { checkFields } from "../../../lib/checkFields";
 import { gamesList } from "../../../lib/GamesManager";
+import { selectFriendnames } from "../../../lib/Friendships";
 import { MAX_AMOUNT_PLAYERS } from "../../../lib/GamesManager";
 
 export default async (req, res) => {
@@ -53,11 +54,14 @@ export default async (req, res) => {
 				}
 				var found = false;
 				var game;
+				const friends = await selectFriendnames(message.username);
 				for (var i = 0; found == false && i < gamesList.length; i++) {
 					game = gamesList[i];
-					if (game.players.lenght >= MAX_AMOUNT_PLAYERS) {
-					} else if (addPlayerGame(game.room_id, p)) {
-						found = true;
+					if (game.players.lenght < MAX_AMOUNT_PLAYERS &&
+						(!game.isPrivate || friends.includes(game.host.username))) {
+						if (addPlayerGame(game.room_id, p)) {
+							found = true;
+						}
 					}
 				}
 				if (found) {
