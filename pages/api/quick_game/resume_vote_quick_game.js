@@ -35,7 +35,7 @@ export default async (req, res) => {
 			game.reviewing = false;
 			const pl = game.players.find((p) => p.username == message.username);
 			const result =
-			(message.turn <= game.voteTurn && pl.votedTo == "" && ((Date.now()-game.initialTime+BEGIN_MARGIN)/1000>=0))
+			(message.turn <= game.voteTurn && pl.votedTo == "" && (((Date.now()-game.initialTime+BEGIN_MARGIN)/1000)>=0))
 				? "success"
 				: "waiting_players";
 
