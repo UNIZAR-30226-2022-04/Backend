@@ -58,7 +58,6 @@ export default async (req, res) => {
 				if (store) {
 					var auxDate = query[st].story.date;
 					auxDate.setMonth(auxDate.getUTCMonth() + 1);
-					auxDate.setDate(auxDate.getUTCDate() + 1);
 					const [month, day, year] = [
 						auxDate.getUTCMonth(),
 						auxDate.getUTCDate(),
